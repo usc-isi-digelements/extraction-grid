@@ -1,0 +1,308 @@
+<!--
+Copyright 2017 Next Century Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="../../web-component-tester/browser.js"></script>
+  <link rel="import" href="../extraction-grid.html">
+</head>
+
+<body>
+  <test-fixture id="extraction-grid-fixture">
+    <template>
+      <extraction-grid></extraction-grid>
+    </template>
+  </test-fixture>
+
+  <script>
+    suite('extraction-grid tests', function() {
+      var element;
+
+      setup(function(done) {
+        element = fixture('extraction-grid-fixture');
+        element.extractions = [{
+          name: 'name1',
+          data: []
+        }, {
+          name: 'name2',
+          data: [{
+            text: 'text2'
+          }]
+        }, {
+          name: 'name3',
+          data: [{
+            icon: 'icon',
+            styleClass: 'styleClass',
+            text: 'text3'
+          }, {
+            link: 'link',
+            text: 'text4'
+          }]
+        }, {
+          name: 'name4',
+          data: [{
+            confidence: 'high',
+            text: 'text5'
+          }, {
+            confidence: 'low',
+            text: 'text6'
+          }]
+        }];
+        flush(done);
+      });
+
+      test('default properties are set correctly', function() {
+        expect(element.dataProperty).to.equal('data');
+        expect(element.dataConfidenceProperty).to.equal('confidence');
+        expect(element.dataHighlightProperty).to.equal('highlight');
+        expect(element.dataIconProperty).to.equal('icon');
+        expect(element.dataLinkProperty).to.equal('link');
+        expect(element.dataStyleClassProperty).to.equal('styleClass');
+        expect(element.dataTextProperty).to.equal('text');
+        expect(element.nameProperty).to.equal('name');
+        expect(element.newTab).to.be.false;
+      });
+
+      test('extractions are set correctly', function() {
+        expect(element.extractions).to.deep.equal([{
+          name: 'name1',
+          data: []
+        }, {
+          name: 'name2',
+          data: [{
+            text: 'text2'
+          }]
+        }, {
+          name: 'name3',
+          data: [{
+            icon: 'icon',
+            styleClass: 'styleClass',
+            text: 'text3'
+          }, {
+            link: 'link',
+            text: 'text4'
+          }]
+        }, {
+          name: 'name4',
+          data: [{
+            confidence: 'high',
+            text: 'text5'
+          }, {
+            confidence: 'low',
+            text: 'text6'
+          }]
+        }]);
+      });
+
+      test('does show an extraction-list element', function() {
+        expect(element.$$('.extraction-list')).to.exist;
+      });
+
+      test('does show extraction elements', function() {
+        var extractions = element.querySelectorAll('.extraction');
+        expect(extractions).to.exist;
+        expect(extractions.length).to.equal(4);
+
+        var data = element.querySelectorAll('.extraction-data');
+        expect(data).to.exist;
+        expect(data.length).to.equal(5);
+      });
+
+      test('_getConfidenceStyleClass does return correctly', function() {
+        expect(element._getConfidenceStyleClass).to.be.a('Function');
+        expect(element._getConfidenceStyleClass({}, 'confidence')).to.equal('hide');
+        expect(element._getConfidenceStyleClass({
+          notconfidence: 'high'
+        }, 'confidence')).to.equal('hide');
+        expect(element._getConfidenceStyleClass({
+          confidence: 'high'
+        }, 'notconfidence')).to.equal('hide');
+        expect(element._getConfidenceStyleClass({
+          confidence: 'unsupported'
+        }, 'confidence')).to.equal('hide');
+        expect(element._getConfidenceStyleClass({
+          confidence: 'high'
+        }, 'confidence')).to.equal('high-confidence');
+        expect(element._getConfidenceStyleClass({
+          confidence: 'low'
+        }, 'confidence')).to.equal('low-confidence');
+      });
+
+      test('_getConfidenceText does return correctly', function() {
+        expect(element._getConfidenceText).to.be.a('Function');
+        expect(element._getConfidenceText({}, 'confidence')).to.equal('');
+        expect(element._getConfidenceText({
+          notconfidence: 'high'
+        }, 'confidence')).to.equal('');
+        expect(element._getConfidenceText({
+          confidence: 'high'
+        }, 'notconfidence')).to.equal('');
+        expect(element._getConfidenceText({
+          confidence: 'unsupported'
+        }, 'confidence')).to.equal('');
+        expect(element._getConfidenceText({
+          confidence: 'high'
+        }, 'confidence')).to.equal('High Confidence Extraction');
+        expect(element._getConfidenceText({
+          confidence: 'low'
+        }, 'confidence')).to.equal('Low Confidence Extraction');
+      });
+
+      test('_getHighlightableLabelStyleClass does return correctly', function() {
+        expect(element._getHighlightableLabelStyleClass).to.be.a('Function');
+        expect(element._getHighlightableLabelStyleClass({}, 'highlight')).to.equal('');
+        expect(element._getHighlightableLabelStyleClass({
+          nothighlight: true
+        }, 'highlight')).to.equal('');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: true
+        }, 'nothighlight')).to.equal('');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: false
+        }, 'highlight')).to.equal('');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: 0
+        }, 'highlight')).to.equal('');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: true
+        }, 'highlight')).to.equal('highlight');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: 1
+        }, 'highlight')).to.equal('highlight');
+        expect(element._getHighlightableLabelStyleClass({
+          highlight: 'string'
+        }, 'highlight')).to.equal('highlight');
+      });
+
+      test('_getLength does return correctly', function() {
+        expect(element._getLength).to.be.a('Function');
+        expect(element._getLength({}, 'list')).to.not.exist;
+        expect(element._getLength({
+          list: []
+        }, 'notlist')).to.not.exist;
+        expect(element._getLength({
+          notlist: []
+        }, 'list')).to.not.exist;
+        expect(element._getLength({
+          list: []
+        }, 'list')).to.equal(0);
+        expect(element._getLength({
+          list: [1]
+        }, 'list')).to.equal(1);
+        expect(element._getLength({
+          list: [1, 2]
+        }, 'list')).to.equal(2);
+      });
+
+      test('_getList does return correctly', function() {
+        expect(element._getList).to.be.a('Function');
+        expect(element._getList({}, 'list')).to.deep.equal([]);
+        expect(element._getList({
+          list: []
+        }, 'notlist')).to.deep.equal([]);
+        expect(element._getList({
+          notlist: []
+        }, 'list')).to.deep.equal([]);
+        expect(element._getList({
+          list: []
+        }, 'list')).to.deep.equal([]);
+        expect(element._getList({
+          list: [1]
+        }, 'list')).to.deep.equal([1]);
+        expect(element._getList({
+          list: [1, 2]
+        }, 'list')).to.deep.equal([1, 2]);
+      });
+
+      test('_getProperty does return correctly', function() {
+        expect(element._getProperty).to.be.a('Function');
+        expect(element._getProperty({}, 'property')).to.not.exist;
+        expect(element._getProperty({
+          property: 'text'
+        }, 'notproperty')).to.not.exist;
+        expect(element._getProperty({
+          notproperty: 'text'
+        }, 'property')).to.not.exist;
+        expect(element._getProperty({
+          property: 'text'
+        }, 'property')).to.equal('text');
+        expect(element._getProperty({
+          property: 10
+        }, 'property')).to.equal(10);
+        expect(element._getProperty({
+          property: true
+        }, 'property')).to.be.true;
+        expect(element._getProperty({
+          property: [1, 2, 3, 4, 5]
+        }, 'property')).to.deep.equal([1, 2, 3, 4, 5]);
+        expect(element._getProperty({
+          property: {
+            key: 'value'
+          }
+        }, 'property')).to.deep.equal({
+          key: 'value'
+        });
+      });
+
+      test('_getPropertyAndColon does return correctly', function() {
+        expect(element._getPropertyAndColon).to.be.a('Function');
+        expect(element._getPropertyAndColon({}, 'property')).to.equal('');
+        expect(element._getPropertyAndColon({
+          property: 'text'
+        }, 'notproperty')).to.equal('');
+        expect(element._getPropertyAndColon({
+          notproperty: 'text'
+        }, 'property')).to.equal('');
+        expect(element._getPropertyAndColon({
+          property: 'text'
+        }, 'property')).to.equal('text:');
+        expect(element._getPropertyAndColon({
+          property: 10
+        }, 'property')).to.equal('10:');
+        expect(element._getPropertyAndColon({
+          property: true
+        }, 'property')).to.equal('true:');
+      });
+
+      test('_getTarget does return correctly', function() {
+        expect(element._getTarget).to.be.a('Function');
+        expect(element._getTarget(true)).to.equal('_blank');
+        expect(element._getTarget(false)).to.equal('_self');
+      });
+    });
+
+    suite('extraction-grid tests with no extractions', function() {
+      var element;
+
+      setup(function() {
+        element = fixture('extraction-grid-fixture');
+      });
+
+      test('extractions are set correctly', function() {
+        expect(element.extractions).to.deep.equal([]);
+      });
+
+      test('does not show extraction elements', function() {
+        expect(element.$$('.extraction')).to.not.exist;
+        expect(element.$$('.extraction-data')).to.not.exist;
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!--
+Copyright 2017 Next Century Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <link rel="import" href="../extraction-grid.html">
+</head>
+
+<body unresolved>
+  <template is="dom-bind" id="demo">
+    <p>Extractions: [[stringify(extractions)]]</p>
+    <p>New Tab: true</p>
+
+    <extraction-grid
+      extractions="[[extractions]]"
+      new-tab>
+    </extraction-grid>
+  </template>
+
+  <script>
+    (function(document) {
+      var demo = document.querySelector('#demo');
+
+      demo.extractions = [{
+        name: 'Next Century',
+        data: [{
+          confidence: 'high',
+          icon: 'link',
+          link: 'https://www.nextcentury.com/',
+          styleClass: 'extraction-nextcentury',
+          text: 'Website'
+        }, {
+          confidence: 'high',
+          highlight: true,
+          icon: 'search',
+          link: 'https://github.com/DigElements',
+          styleClass: 'extraction-nextcentury',
+          text: 'DigElements'
+        }]
+      }, {
+        name: 'Google',
+        data: [{
+          confidence: 'low',
+          icon: 'android',
+          link: 'https://www.android.com/',
+          styleClass: 'extraction-google',
+          text: 'Android'
+        }, {
+          confidence: 'low',
+          icon: 'polymer',
+          link: 'https://www.polymer-project.org/',
+          styleClass: 'extraction-google',
+          text: 'Polymer Project'
+        }]
+      }];
+
+      demo.stringify = function(object) {
+        return JSON.stringify(object);
+      };
+    })(document);
+  </script>
+</body>
+</html>
