@@ -76,7 +76,7 @@ limitations under the License.
         expect(element.dataStyleClassProperty).to.equal('styleClass');
         expect(element.dataTextProperty).to.equal('text');
         expect(element.nameProperty).to.equal('name');
-        expect(element.newTab).to.be.false;
+        expect(element.target).to.equal('_self');
       });
 
       test('extractions are set correctly', function() {
@@ -112,9 +112,7 @@ limitations under the License.
 
       test('does show an extraction-list element', function() {
         expect(element.$$('.extraction-list')).to.exist;
-      });
 
-      test('does show extraction elements', function() {
         var extractions = element.querySelectorAll('.extraction');
         expect(extractions).to.exist;
         expect(extractions.length).to.equal(4);
@@ -278,12 +276,6 @@ limitations under the License.
         expect(element._getPropertyAndColon({
           property: true
         }, 'property')).to.equal('true:');
-      });
-
-      test('_getTarget does return correctly', function() {
-        expect(element._getTarget).to.be.a('Function');
-        expect(element._getTarget(true)).to.equal('_blank');
-        expect(element._getTarget(false)).to.equal('_self');
       });
     });
 

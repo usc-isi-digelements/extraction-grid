@@ -151,7 +151,7 @@ Custom property                            | Description                        
                   icon="[[_getProperty(extraction, dataIconProperty)]]"
                   icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
                   link="[[_getProperty(extraction, dataLinkProperty)]]"
-                  target="[[_getTarget(newTab)]]"
+                  target="[[target]]"
                   text="[[_getProperty(extraction, dataTextProperty)]]">
                 </icon-label>
                 <iron-icon icon="fa:circle"
@@ -296,14 +296,14 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
-         * Whether to open a link in a new tab.
+         * The extraction link target.
          *
-         * @type {Boolean}
-         * @default false
+         * @type {String}
+         * @value '_self'
          */
-        newTab: {
-          type: Boolean,
-          value: false
+        target: {
+          type: String,
+          value: '_self'
         }
       },
 
@@ -402,17 +402,6 @@ Custom property                            | Description                        
       _getPropertyAndColon: function(item, property) {
         var output = this._getProperty(item, property);
         return output ? output + ':' : '';
-      },
-
-      /**
-       * Returns the anchor target string.
-       *
-       * @param {Boolean} newTab
-       * @return {String}
-       * @private
-       */
-      _getTarget: function(newTab) {
-        return (newTab ? '_blank' : '_self');
       }
     });
   })();
