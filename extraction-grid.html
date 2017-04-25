@@ -154,7 +154,7 @@ Custom property                            | Description                        
           </template>
           <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
             <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
-              <div class="layout horizontal center extraction-data" secondary>
+              <div class="layout horizontal center extraction-item" secondary>
                 <icon-label class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
                   title="Open [[_getProperty(extraction, dataTextProperty)]]"
                   icon="[[_getProperty(extraction, dataIconProperty)]]"

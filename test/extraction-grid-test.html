@@ -117,9 +117,13 @@ limitations under the License.
         expect(extractions).to.exist;
         expect(extractions.length).to.equal(4);
 
-        var data = element.querySelectorAll('.extraction-data');
-        expect(data).to.exist;
-        expect(data.length).to.equal(5);
+        var names = element.querySelectorAll('.extraction-name');
+        expect(names).to.exist;
+        expect(names.length).to.equal(4);
+
+        var items = element.querySelectorAll('.extraction-item');
+        expect(items).to.exist;
+        expect(items.length).to.equal(5);
       });
 
       test('_getConfidenceStyleClass does return correctly', function() {
@@ -292,7 +296,8 @@ limitations under the License.
 
       test('does not show extraction elements', function() {
         expect(element.$$('.extraction')).to.not.exist;
-        expect(element.$$('.extraction-data')).to.not.exist;
+        expect(element.$$('.extraction-name')).to.not.exist;
+        expect(element.$$('.extraction-item')).to.not.exist;
       });
     });
   </script>
