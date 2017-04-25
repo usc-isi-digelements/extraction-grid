@@ -27,14 +27,15 @@ extractions = [{
 
 `<extraction-grid>` provides the following custom properties and mixins for styling:
 
-Custom property                            | Description                            | Default
--------------------------------------------|----------------------------------------|-----------------------
-`--extraction-grid-high-confidence-color`  | The color of the high confidence icon. | --paper-blue-600
-`--extraction-grid-highlighted-text-color` | The color of the highlighted text.     | yellow
-`--extraction-grid-hover-color`            | The color of the label on hover.       | --primary-text-color
-`--extraction-grid-label-color`            | The color of the label.                | --secondary-text-color
-`--extraction-grid-label-mixin`            | Mixin applied to the label.            | {}
-`--extraction-grid-low-confidence-color`   | The color of the low confidence icon.  | --paper-orange-600
+Custom property                            | Description                                 | Default
+-------------------------------------------|---------------------------------------------|-----------------------
+`--extraction-grid-high-confidence-color`  | The color of the high confidence icon.      | --paper-blue-600
+`--extraction-grid-highlighted-text-color` | The color of the highlighted text.          | yellow
+`--extraction-grid-hover-color`            | The color of the extraction label on hover. | --secondary-text-color
+`--extraction-grid-label-color`            | The color of the extraction label.          | --primary-text-color
+`--extraction-grid-label-mixin`            | Mixin applied to the extraction label.      | {}
+`--extraction-grid-low-confidence-color`   | The color of the low confidence icon.       | --paper-orange-600
+`--extraction-grid-title-color`            | The color of the extraction title.          | --secondary-text-color
 
 ### Dependencies
 
