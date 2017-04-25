@@ -94,9 +94,8 @@ Custom property                            | Description                        
       .confidence-icon {
         --iron-icon-width: 18px;
         --iron-icon-height: 18px;
-        /* Align with text. */
-        margin-top: 2px;
-        margin-right: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
       }
 
       .high-confidence {
@@ -110,7 +109,6 @@ Custom property                            | Description                        
       icon-label {
         display: inline-block;
         border-radius: 5px;
-        margin-right: 5px;
         padding: 0 5px;
 
         --icon-label-text: {
@@ -121,6 +119,10 @@ Custom property                            | Description                        
         --icon-label-link-hover: {
           color: var(--extraction-grid-hover-color, --primary-text-color);
         };
+      }
+
+      icon-label ::content iron-icon {
+        margin-right: 10px;
       }
 
       .highlight {
@@ -149,7 +151,7 @@ Custom property                            | Description                        
           </template>
           <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
             <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
-              <div class="layout horizontal extraction-data" secondary>
+              <div class="layout horizontal center extraction-data" secondary>
                 <icon-label class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
                   title="Open [[_getProperty(extraction, dataTextProperty)]]"
                   icon="[[_getProperty(extraction, dataIconProperty)]]"
