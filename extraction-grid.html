@@ -90,7 +90,7 @@ Custom property                            | Description                        
 
       .extraction-name {
         color: var(--extraction-grid-title-color, --secondary-text-color);
-        line-height: 24px;
+        margin-bottom: 5px;
       }
 
       .confidence-icon {
@@ -111,10 +111,11 @@ Custom property                            | Description                        
       icon-label {
         display: inline-block;
         border-radius: 5px;
-        padding: 2px 5px;
+        margin-bottom: 5px;
 
         --icon-label-text: {
           color: var(--extraction-grid-label-color, --primary-text-color);
+          padding: 0 5px;
           @apply(--extraction-grid-label-mixin);
         };
 
@@ -123,17 +124,13 @@ Custom property                            | Description                        
         };
       }
 
-      icon-label ::content iron-icon {
-        margin-right: 10px;
-      }
-
-      .highlight {
+      .highlight ::content strong {
         background-color: var(--extraction-grid-highlighted-text-color, yellow);
       }
 
       .no-extraction {
         color: var(--extraction-grid-label-color, --primary-text-color);
-        line-height: 24px;
+        margin-bottom: 5px;
       }
 
       .hide {
