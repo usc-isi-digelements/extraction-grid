@@ -112,16 +112,25 @@ limitations under the License.
 
       test('does show an extraction-list element', function() {
         expect(element.$$('.extraction-list')).to.exist;
+      });
 
-        var extractions = element.querySelectorAll('.extraction');
+      test('does show extraction elements', function() {
+        var extractions = Polymer.dom(element.root).querySelectorAll('.extraction');
         expect(extractions).to.exist;
-        expect(extractions.length).to.equal(4);
+        expect(extractions.length).to.equal(3);
+      });
 
-        var names = element.querySelectorAll('.extraction-name');
+      test('does show extraction-name elements', function() {
+        var names = Polymer.dom(element.root).querySelectorAll('.extraction-name');
         expect(names).to.exist;
-        expect(names.length).to.equal(4);
+        expect(names.length).to.equal(3);
+        expect(names[0].innerHTML).to.equal('name2');
+        expect(names[1].innerHTML).to.equal('name3');
+        expect(names[2].innerHTML).to.equal('name4');
+      });
 
-        var items = element.querySelectorAll('.extraction-item');
+      test('does show extraction-item elements', function() {
+        var items = Polymer.dom(element.root).querySelectorAll('.extraction-item');
         expect(items).to.exist;
         expect(items.length).to.equal(5);
       });
@@ -260,26 +269,6 @@ limitations under the License.
         }, 'property')).to.deep.equal({
           key: 'value'
         });
-      });
-
-      test('_getPropertyAndColon does return correctly', function() {
-        expect(element._getPropertyAndColon).to.be.a('Function');
-        expect(element._getPropertyAndColon({}, 'property')).to.equal('');
-        expect(element._getPropertyAndColon({
-          property: 'text'
-        }, 'notproperty')).to.equal('');
-        expect(element._getPropertyAndColon({
-          notproperty: 'text'
-        }, 'property')).to.equal('');
-        expect(element._getPropertyAndColon({
-          property: 'text'
-        }, 'property')).to.equal('text:');
-        expect(element._getPropertyAndColon({
-          property: 10
-        }, 'property')).to.equal('10:');
-        expect(element._getPropertyAndColon({
-          property: true
-        }, 'property')).to.equal('true:');
       });
     });
 

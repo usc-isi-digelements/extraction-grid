@@ -142,14 +142,11 @@ Custom property                            | Description                        
 
     <div class="layout horizontal extraction-list wrap">
       <template is="dom-repeat" items="[[extractions]]">
-        <div class="layout vertical extraction">
-          <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
-            <strong class="extraction-name">[[_getPropertyAndColon(item, nameProperty)]]</strong>
-          </template>
-          <template is="dom-if" if="[[!_getLength(item, dataProperty)]]">
-            <div class="no-extraction">None</div>
-          </template>
-          <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
+        <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
+          <div class="layout vertical extraction">
+            <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
+              <strong class="extraction-name">[[_getProperty(item, nameProperty)]]</strong>
+            </template>
             <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
               <div class="layout horizontal center extraction-item" secondary>
                 <icon-label
@@ -169,8 +166,8 @@ Custom property                            | Description                        
                 </template>
               </div>
             </template>
-          </template>
-        </div>
+          </div>
+        </template>
       </template>
     </div>
   </template>
@@ -398,19 +395,6 @@ Custom property                            | Description                        
        */
       _getProperty: function(item, property) {
         return item ? item[property] : undefined;
-      },
-
-      /**
-       * Returns the string in the given item at the given property with a colon at the end of it.
-       *
-       * @param {Object} item
-       * @param {String} property
-       * @return {String}
-       * @private
-       */
-      _getPropertyAndColon: function(item, property) {
-        var output = this._getProperty(item, property);
-        return output ? output + ':' : '';
       }
     });
   })();
