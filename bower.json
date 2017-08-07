@@ -1,7 +1,7 @@
 {
   "name": "extraction-grid",
   "description": "A Polymer Element showing a grid of extractions.",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [
@@ -17,11 +17,13 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.7.0",
+    "confidence-marker": "DigElements/confidence-marker#2.0.0",
     "fontawesome-iconset": "https://github.com/vangware/fontawesome-iconset.git#7f5826f89bac4e6d4fa61f64a9fe13978aaa7b38",
     "icon-label": "DigElements/icon-label#1.0.5",
     "iron-elements": "PolymerElements/iron-elements#^1.0.10",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#1.3.1",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7"
+    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
+    "tag-extraction-buttons": "DigElements/tag-extraction-buttons#1.0.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",

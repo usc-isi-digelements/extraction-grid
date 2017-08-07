@@ -57,29 +57,41 @@ limitations under the License.
         }, {
           name: 'name4',
           data: [{
-            confidence: 'high',
+            confidence: 100,
             text: 'text5'
           }, {
-            confidence: 'low',
+            confidence: 50,
+            provenances: [{
+              method: 'provenanceMethod1',
+              text: 'provenanceText1'
+            }],
             text: 'text6'
           }]
         }];
+        element.resultId = 'abcd1234';
         flush(done);
       });
 
-      test('default properties are set correctly', function() {
+      test('properties are set as expected', function() {
         expect(element.dataProperty).to.equal('data');
+        expect(element.dataClassificationsProperty).to.equal('classifications');
         expect(element.dataConfidenceProperty).to.equal('confidence');
         expect(element.dataHighlightProperty).to.equal('highlight');
         expect(element.dataIconProperty).to.equal('icon');
+        expect(element.dataIdProperty).to.equal('id');
         expect(element.dataLinkProperty).to.equal('link');
+        expect(element.dataProvenancesProperty).to.equal('provenances');
         expect(element.dataStyleClassProperty).to.equal('styleClass');
         expect(element.dataTextProperty).to.equal('text');
         expect(element.nameProperty).to.equal('name');
+        expect(element.provenanceMethodProperty).to.equal('method');
+        expect(element.provenanceTextProperty).to.equal('text');
+        expect(element.resultId).to.equal('abcd1234');
+        expect(element.tagManager).to.not.exist;
         expect(element.target).to.equal('_self');
       });
 
-      test('extractions are set correctly', function() {
+      test('extractions are set as expected', function() {
         expect(element.extractions).to.deep.equal([{
           name: 'name1',
           data: []
@@ -101,10 +113,14 @@ limitations under the License.
         }, {
           name: 'name4',
           data: [{
-            confidence: 'high',
+            confidence: 100,
             text: 'text5'
           }, {
-            confidence: 'low',
+            confidence: 50,
+            provenances: [{
+              method: 'provenanceMethod1',
+              text: 'provenanceText1'
+            }],
             text: 'text6'
           }]
         }]);
@@ -135,7 +151,45 @@ limitations under the License.
         expect(items.length).to.equal(5);
       });
 
-      test('_getConfidenceStyleClass does return correctly', function() {
+      test('does show confidence-marker elements', function() {
+        var markers = Polymer.dom(element.root).querySelectorAll('confidence-marker');
+        expect(markers).to.exist;
+        expect(markers.length).to.equal(5);
+        expect(markers[0].confidence).to.not.exist;
+        expect(markers[0].documentId).to.equal('abcd1234');
+        expect(markers[0].provenanceMethodProperty).to.equal('method');
+        expect(markers[0].provenanceTextProperty).to.equal('text');
+        expect(markers[0].provenances).to.not.exist;
+        expect(markers[1].confidence).to.not.exist;
+        expect(markers[1].documentId).to.equal('abcd1234');
+        expect(markers[1].provenanceMethodProperty).to.equal('method');
+        expect(markers[1].provenanceTextProperty).to.equal('text');
+        expect(markers[1].provenances).to.not.exist;
+        expect(markers[2].confidence).to.not.exist;
+        expect(markers[2].documentId).to.equal('abcd1234');
+        expect(markers[2].provenanceMethodProperty).to.equal('method');
+        expect(markers[2].provenanceTextProperty).to.equal('text');
+        expect(markers[2].provenances).to.not.exist;
+        expect(markers[3].confidence).to.equal(100);
+        expect(markers[3].documentId).to.equal('abcd1234');
+        expect(markers[3].provenanceMethodProperty).to.equal('method');
+        expect(markers[3].provenanceTextProperty).to.equal('text');
+        expect(markers[3].provenances).to.not.exist;
+        expect(markers[4].confidence).to.equal(50);
+        expect(markers[4].documentId).to.equal('abcd1234');
+        expect(markers[4].provenanceMethodProperty).to.equal('method');
+        expect(markers[4].provenanceTextProperty).to.equal('text');
+        expect(markers[4].provenances).to.deep.equal([{
+          method: 'provenanceMethod1',
+          text: 'provenanceText1'
+        }]);
+      });
+
+      test('does not show tag-extraction-buttons elements if tagManager is undefined', function() {
+        expect(element.$$('tag-extraction-buttons')).to.not.exist;
+      });
+
+      test('_getConfidenceStyleClass does return as expected', function() {
         expect(element._getConfidenceStyleClass).to.be.a('Function');
         expect(element._getConfidenceStyleClass({}, 'confidence')).to.equal('hide');
         expect(element._getConfidenceStyleClass({
@@ -155,7 +209,7 @@ limitations under the License.
         }, 'confidence')).to.equal('low-confidence');
       });
 
-      test('_getConfidenceText does return correctly', function() {
+      test('_getConfidenceText does return as expected', function() {
         expect(element._getConfidenceText).to.be.a('Function');
         expect(element._getConfidenceText({}, 'confidence')).to.equal('');
         expect(element._getConfidenceText({
@@ -175,7 +229,7 @@ limitations under the License.
         }, 'confidence')).to.equal('Low Confidence Extraction');
       });
 
-      test('_getHighlightableLabelStyleClass does return correctly', function() {
+      test('_getHighlightableLabelStyleClass does return as expected', function() {
         expect(element._getHighlightableLabelStyleClass).to.be.a('Function');
         expect(element._getHighlightableLabelStyleClass({}, 'highlight')).to.equal('');
         expect(element._getHighlightableLabelStyleClass({
@@ -201,7 +255,7 @@ limitations under the License.
         }, 'highlight')).to.equal('highlight');
       });
 
-      test('_getLength does return correctly', function() {
+      test('_getLength does return as expected', function() {
         expect(element._getLength).to.be.a('Function');
         expect(element._getLength({}, 'list')).to.not.exist;
         expect(element._getLength({
@@ -221,7 +275,7 @@ limitations under the License.
         }, 'list')).to.equal(2);
       });
 
-      test('_getList does return correctly', function() {
+      test('_getList does return as expected', function() {
         expect(element._getList).to.be.a('Function');
         expect(element._getList({}, 'list')).to.deep.equal([]);
         expect(element._getList({
@@ -241,7 +295,7 @@ limitations under the License.
         }, 'list')).to.deep.equal([1, 2]);
       });
 
-      test('_getProperty does return correctly', function() {
+      test('_getProperty does return as expected', function() {
         expect(element._getProperty).to.be.a('Function');
         expect(element._getProperty({}, 'property')).to.not.exist;
         expect(element._getProperty({
@@ -275,18 +329,93 @@ limitations under the License.
     suite('extraction-grid tests with no extractions', function() {
       var element;
 
-      setup(function() {
+      setup(function(done) {
         element = fixture('extraction-grid-fixture');
+        flush(done);
       });
 
-      test('extractions are set correctly', function() {
+      test('extractions are set as expected', function() {
         expect(element.extractions).to.deep.equal([]);
       });
 
-      test('does not show extraction elements', function() {
+      test('does not show extraction elements if extractions is undefined', function() {
         expect(element.$$('.extraction')).to.not.exist;
         expect(element.$$('.extraction-name')).to.not.exist;
         expect(element.$$('.extraction-item')).to.not.exist;
+        expect(element.$$('confidence-marker')).to.not.exist;
+        expect(element.$$('tag-extraction-buttons')).to.not.exist;
+      });
+    });
+
+    suite('extraction-grid tests with tagManager', function() {
+      var element;
+
+      setup(function(done) {
+        element = fixture('extraction-grid-fixture');
+        element.extractions = [{
+          name: 'name1',
+          data: [{
+            id: 'id1',
+            text: 'text1'
+          }]
+        }, {
+          name: 'name2',
+          data: [{
+            classifications: {
+              database: 'negative',
+              type: 'type2',
+              user: 'positive'
+            },
+            id: 'id2',
+            text: 'text2'
+          }]
+        }];
+        element.resultId = 'abcd1234';
+        element.tagManager = {
+          addListener: function() {},
+          removeListener: function() {},
+          setExtractionTag: function() {}
+        };
+        flush(done);
+      });
+
+      test('extractions are set as expected', function() {
+        expect(element.extractions).to.deep.equal([{
+          name: 'name1',
+          data: [{
+            id: 'id1',
+            text: 'text1'
+          }]
+        }, {
+          name: 'name2',
+          data: [{
+            classifications: {
+              database: 'negative',
+              type: 'type2',
+              user: 'positive'
+            },
+            id: 'id2',
+            text: 'text2'
+          }]
+        }]);
+      });
+
+      test('does show tag-extraction-buttons elements', function() {
+        var buttons = Polymer.dom(element.root).querySelectorAll('tag-extraction-buttons');
+        expect(buttons).to.exist;
+        expect(buttons.length).to.equal(2);
+        expect(buttons[0].classification).to.not.exist;
+        expect(buttons[0].entityId).to.equal('abcd1234');
+        expect(buttons[0].extractionKey).to.equal('id1');
+        expect(buttons[0].tagManager).to.deep.equal(element.tagManager);
+        expect(buttons[1].classification).to.deep.equal({
+          database: 'negative',
+          type: 'type2',
+          user: 'positive'
+        });
+        expect(buttons[1].entityId).to.equal('abcd1234');
+        expect(buttons[1].extractionKey).to.equal('id2');
+        expect(buttons[1].tagManager).to.deep.equal(element.tagManager);
       });
     });
   </script>

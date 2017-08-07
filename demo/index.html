@@ -24,10 +24,13 @@ limitations under the License.
 
 <body unresolved>
   <template is="dom-bind" id="demo">
+    <p>Result ID: abcd1234</p>
     <p>Extractions: [[stringify(extractions)]]</p>
 
     <extraction-grid
-      extractions="[[extractions]]">
+      extractions="[[extractions]]"
+      result-id="abcd1234"
+      tag-manager="[[tagManager]]">
     </extraction-grid>
   </template>
 
@@ -46,35 +49,70 @@ limitations under the License.
       }, {
         name: 'Next Century',
         data: [{
-          confidence: 'high',
+          classifications: {
+            database: 'positive',
+            type: 'type',
+            user: ''
+          },
+          confidence: 100,
           icon: 'link',
+          id: 'ID1',
           link: 'https://www.nextcentury.com/',
+          provenances: [{
+            method: 'From Page Header',
+            text: 'Welcome to <etk>Next Century</etk>'
+          }],
           styleClass: 'extraction-nextcentury',
-          text: 'Website'
+          text: 'Home Page'
         }, {
-          confidence: 'high',
+          classifications: {
+            database: 'negative',
+            type: 'type',
+            user: ''
+          },
+          confidence: 33,
           highlight: true,
           icon: 'search',
+          id: 'ID2',
           link: 'https://github.com/DigElements',
+          provenances: [{
+            method: 'From Page Body',
+            text: 'The <etk>DigElements</etk> Library'
+          }],
           styleClass: 'extraction-nextcentury',
           text: 'DigElements'
         }]
       }, {
         name: 'Google',
         data: [{
-          confidence: 'low',
+          classifications: {
+            database: '',
+            type: 'type',
+            user: ''
+          },
+          confidence: 99,
           icon: 'android',
+          id: 'ID3',
           link: 'https://www.android.com/',
+          provenances: [],
           styleClass: 'extraction-google',
           text: 'Android'
         }, {
-          confidence: 'low',
+          classifications: {},
+          confidence: 66,
           icon: 'polymer',
           link: 'https://www.polymer-project.org/',
+          provenances: [],
           styleClass: 'extraction-google',
           text: 'Polymer Project'
         }]
       }];
+
+      demo.tagManager = {
+        addListener: function() {},
+        removeListener: function() {},
+        setExtractionTag: function() {}
+      };
 
       demo.stringify = function(object) {
         return JSON.stringify(object);

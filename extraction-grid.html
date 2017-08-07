@@ -15,6 +15,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../confidence-marker/confidence-marker.html">
 <link rel="import" href="../fontawesome-iconset/fa-all.html">
 <link rel="import" href="../icon-label/icon-label.html">
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
@@ -22,6 +23,7 @@ limitations under the License.
 <link rel="import" href="../iron-icons/iron-icons.html">
 <link rel="import" href="../paper-styles/color.html">
 <link rel="import" href="../paper-styles/default-theme.html">
+<link rel="import" href="../tag-extraction-buttons/tag-extraction-buttons.html">
 
 <!--
 A Polymer Element showing a grid of extractions.
@@ -147,6 +149,7 @@ Custom property                            | Description                        
             <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
               <strong class="extraction-name">[[_getProperty(item, nameProperty)]]</strong>
             </template>
+
             <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
               <div class="layout horizontal center extraction-item" secondary>
                 <icon-label
@@ -158,11 +161,23 @@ Custom property                            | Description                        
                   target="[[target]]"
                   text="[[_getProperty(extraction, dataTextProperty)]]">
                 </icon-label>
-                <template is="dom-if" if="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                  <iron-icon icon="fa:circle"
-                    class$="confidence-icon [[_getConfidenceStyleClass(extraction, dataConfidenceProperty)]]"
-                    title$="[[_getConfidenceText(extraction, dataConfidenceProperty)]]">
-                  </iron-icon>
+
+                <confidence-marker
+                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                  document-id="[[resultId]]"
+                  highlight-tag="[[highlightTag]]"
+                  provenance-method-property="[[provenanceMethodProperty]]"
+                  provenance-text-property="[[provenanceTextProperty]]"
+                  provenances="[[_getProperty(extraction, dataProvenancesProperty)]]">
+                </confidence-marker>
+
+                <template is="dom-if" if="[[tagManager]]">
+                  <tag-extraction-buttons
+                    classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
+                    entity-id="[[resultId]]"
+                    extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
+                    tag-manager="[[tagManager]]">
+                  </tag-extraction-buttons>
                 </template>
               </div>
             </template>
@@ -211,6 +226,19 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The classifications property in the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'classifications'
+         */
+        dataClassificationsProperty: {
+          type: String,
+          value: 'classifications'
+        },
+
+        /**
+         * (Optional)
+         *
          * The confidence property in the data objects from the extraction objects.  Supported confidence values are "high" and "low".
          *
          * @type {String}
@@ -250,6 +278,19 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The ID property in the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'id'
+         */
+        dataIdProperty: {
+          type: String,
+          value: 'id'
+        },
+
+        /**
+         * (Optional)
+         *
          * The link property in the data objects from the extraction objects.
          *
          * @type {String}
@@ -258,6 +299,19 @@ Custom property                            | Description                        
         dataLinkProperty: {
           type: String,
           value: 'link'
+        },
+
+        /**
+         * (Optional)
+         *
+         * The provenance property in the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'provenance'
+         */
+        dataProvenancesProperty: {
+          type: String,
+          value: 'provenances'
         },
 
         /**
@@ -289,6 +343,17 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The highlight tag for the confidence-marker.
+         *
+         * @type {String}
+         */
+        highlightTag: {
+          type: String
+        },
+
+        /**
+         * (Optional)
+         *
          * The name property in the extraction objects.
          *
          * @type {String}
@@ -302,10 +367,60 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The method property in provenance objects from the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'method'
+         */
+        provenanceMethodProperty: {
+          type: String,
+          value: 'method'
+        },
+
+        /**
+         * (Optional)
+         *
+         * The text property in provenance objects from the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'text'
+         */
+        provenanceTextProperty: {
+          type: String,
+          value: 'text'
+        },
+
+        /**
+         * (Optional)
+         *
+         * The ID of the result corresponding to this extraction-grid.
+         *
+         * @type {String}
+         * @default ''
+         */
+        resultId: {
+          type: String,
+          value: ''
+        },
+
+        /**
+         * (Optional)
+         *
+         * The tag manager object.
+         *
+         * @type {Object}
+         */
+        tagManager: {
+          type: Object
+        },
+
+        /**
+         * (Optional)
+         *
          * The extraction link target.
          *
          * @type {String}
-         * @value '_self'
+         * @default '_self'
          */
         target: {
           type: String,
