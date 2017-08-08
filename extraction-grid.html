@@ -175,6 +175,8 @@ Custom property                            | Description                        
                   <tag-extraction-buttons
                     classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
                     entity-id="[[resultId]]"
+                    entity-type="[[resultType]]"
+                    extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
                     extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
                     tag-manager="[[tagManager]]">
                   </tag-extraction-buttons>
@@ -343,6 +345,19 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The type property in the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'type'
+         */
+        dataTypeProperty: {
+          type: String,
+          value: 'type'
+        },
+
+        /**
+         * (Optional)
+         *
          * The highlight tag for the confidence-marker.
          *
          * @type {String}
@@ -399,8 +414,19 @@ Custom property                            | Description                        
          * @default ''
          */
         resultId: {
-          type: String,
-          value: ''
+          type: String
+        },
+
+        /**
+         * (Optional)
+         *
+         * The type of the result corresponding to this extraction-grid.
+         *
+         * @type {String}
+         * @default ''
+         */
+        resultType: {
+          type: String
         },
 
         /**
