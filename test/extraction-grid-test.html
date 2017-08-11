@@ -192,46 +192,6 @@ limitations under the License.
         expect(element.$$('tag-extraction-buttons')).to.not.exist;
       });
 
-      test('_getConfidenceStyleClass does return as expected', function() {
-        expect(element._getConfidenceStyleClass).to.be.a('Function');
-        expect(element._getConfidenceStyleClass({}, 'confidence')).to.equal('hide');
-        expect(element._getConfidenceStyleClass({
-          notconfidence: 'high'
-        }, 'confidence')).to.equal('hide');
-        expect(element._getConfidenceStyleClass({
-          confidence: 'high'
-        }, 'notconfidence')).to.equal('hide');
-        expect(element._getConfidenceStyleClass({
-          confidence: 'unsupported'
-        }, 'confidence')).to.equal('hide');
-        expect(element._getConfidenceStyleClass({
-          confidence: 'high'
-        }, 'confidence')).to.equal('high-confidence');
-        expect(element._getConfidenceStyleClass({
-          confidence: 'low'
-        }, 'confidence')).to.equal('low-confidence');
-      });
-
-      test('_getConfidenceText does return as expected', function() {
-        expect(element._getConfidenceText).to.be.a('Function');
-        expect(element._getConfidenceText({}, 'confidence')).to.equal('');
-        expect(element._getConfidenceText({
-          notconfidence: 'high'
-        }, 'confidence')).to.equal('');
-        expect(element._getConfidenceText({
-          confidence: 'high'
-        }, 'notconfidence')).to.equal('');
-        expect(element._getConfidenceText({
-          confidence: 'unsupported'
-        }, 'confidence')).to.equal('');
-        expect(element._getConfidenceText({
-          confidence: 'high'
-        }, 'confidence')).to.equal('High Confidence Extraction');
-        expect(element._getConfidenceText({
-          confidence: 'low'
-        }, 'confidence')).to.equal('Low Confidence Extraction');
-      });
-
       test('_getHighlightableLabelStyleClass does return as expected', function() {
         expect(element._getHighlightableLabelStyleClass).to.be.a('Function');
         expect(element._getHighlightableLabelStyleClass({}, 'highlight')).to.equal('');

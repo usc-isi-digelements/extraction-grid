@@ -55,12 +55,10 @@ extractions = [{
 
 Custom property                            | Description                                 | Default
 -------------------------------------------|---------------------------------------------|-----------------------
-`--extraction-grid-high-confidence-color`  | The color of the high confidence icon.      | --paper-blue-600
 `--extraction-grid-highlighted-text-color` | The color of the highlighted text.          | yellow
 `--extraction-grid-hover-color`            | The color of the extraction label on hover. | --secondary-text-color
 `--extraction-grid-label-color`            | The color of the extraction label.          | --primary-text-color
 `--extraction-grid-label-mixin`            | Mixin applied to the extraction label.      | {}
-`--extraction-grid-low-confidence-color`   | The color of the low confidence icon.       | --paper-orange-600
 `--extraction-grid-title-color`            | The color of the extraction title.          | --secondary-text-color
 
 @demo demo/index.html
@@ -97,19 +95,6 @@ Custom property                            | Description                        
 
       .extraction-item {
         margin-bottom: 5px;
-      }
-
-      .confidence-icon {
-        --iron-icon-width: 16px;
-        --iron-icon-height: 16px;
-      }
-
-      .high-confidence {
-        color: var(--extraction-grid-high-confidence-color, --paper-blue-600);
-      }
-
-      .low-confidence {
-        color: var(---extraction-grid-low-confidence-color, --paper-orange-600);
       }
 
       icon-label {
@@ -450,42 +435,6 @@ Custom property                            | Description                        
           type: String,
           value: '_self'
         }
-      },
-
-      /**
-       * Returns the style class of the confidence icon using the given item and confidence property.
-       *
-       * @param {Object} item
-       * @param {String} property
-       * @return {String}
-       * @private
-       */
-      _getConfidenceStyleClass: function(item, property) {
-        if(item[property] === 'high') {
-          return 'high-confidence';
-        }
-        if(item[property] === 'low') {
-          return 'low-confidence';
-        }
-        return 'hide';
-      },
-
-      /**
-       * Returns the text of the confidence icon using the given item and confidence property.
-       *
-       * @param {Object} item
-       * @param {String} property
-       * @return {String}
-       * @private
-       */
-      _getConfidenceText: function(item, property) {
-        if(item[property] === 'high') {
-          return 'High Confidence Extraction';
-        }
-        if(item[property] === 'low') {
-          return 'Low Confidence Extraction';
-        }
-        return '';
       },
 
       /**
