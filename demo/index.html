@@ -24,7 +24,7 @@ limitations under the License.
 
 <body unresolved>
   <dom-bind id="demo">
-    <template is="dom-bind" id="demo">
+    <template is="dom-bind">
       <p>Result ID: 1234</p>
       <p>Result Type: document</p>
       <template is="dom-if" if="[[stringify]]">
@@ -42,7 +42,7 @@ limitations under the License.
 
   <script>
     (function(document) {
-      var demo = document.querySelector('#demo');
+      var demo = document.querySelector('dom-bind');
 
       demo.extractions = [{
         data: [{
