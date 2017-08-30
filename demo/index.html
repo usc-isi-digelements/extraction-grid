@@ -18,23 +18,27 @@ limitations under the License.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-  <script src="../../webcomponentsjs/webcomponents-lite.min.js"></script>
+  <script src="../../webcomponentsjs/webcomponents-loader.js"></script>
   <link rel="import" href="../extraction-grid.html">
 </head>
 
 <body unresolved>
-  <template is="dom-bind" id="demo">
-    <p>Result ID: 1234</p>
-    <p>Result Type: document</p>
-    <p>Extractions: [[stringify(extractions)]]</p>
+  <dom-bind id="demo">
+    <template is="dom-bind" id="demo">
+      <p>Result ID: 1234</p>
+      <p>Result Type: document</p>
+      <template is="dom-if" if="[[stringify]]">
+        <p>Extractions: [[stringify(extractions)]]</p>
+      </template>
 
-    <extraction-grid
-      extractions="[[extractions]]"
-      result-id="1234"
-      result-type="document"
-      tag-manager="[[tagManager]]">
-    </extraction-grid>
-  </template>
+      <extraction-grid
+        extractions="[[extractions]]"
+        result-id="1234"
+        result-type="document"
+        tag-manager="[[tagManager]]">
+      </extraction-grid>
+    </template>
+  </dom-bind>
 
   <script>
     (function(document) {

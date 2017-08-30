@@ -89,7 +89,7 @@ Custom property                            | Description                        
       }
 
       .extraction-name {
-        color: var(--extraction-grid-title-color, --secondary-text-color);
+        color: var(--extraction-grid-title-color, var(--secondary-text-color));
         margin-bottom: 5px;
       }
 
@@ -103,13 +103,13 @@ Custom property                            | Description                        
         margin-right: 5px;
 
         --icon-label-text: {
-          color: var(--extraction-grid-label-color, --primary-text-color);
+          color: var(--extraction-grid-label-color, var(--primary-text-color));
           padding: 0 5px;
-          @apply(--extraction-grid-label-mixin);
+          @apply --extraction-grid-label-mixin;
         };
 
         --icon-label-link-hover: {
-          color: var(--extraction-grid-hover-color, --secondary-text-color);
+          color: var(--extraction-grid-hover-color, var(--secondary-text-color));
         };
       }
 
@@ -118,7 +118,7 @@ Custom property                            | Description                        
       }
 
       .no-extraction {
-        color: var(--extraction-grid-label-color, --primary-text-color);
+        color: var(--extraction-grid-label-color, var(--primary-text-color));
         margin-bottom: 5px;
       }
 

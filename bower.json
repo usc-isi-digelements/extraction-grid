@@ -1,7 +1,7 @@
 {
   "name": "extraction-grid",
   "description": "A Polymer Element showing a grid of extractions.",
-  "version": "1.0.11",
+  "version": "2.0.0",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [
@@ -9,24 +9,24 @@
     "polymer"
   ],
   "main": "extraction-grid.html",
-  "license": "http://polymer.github.io/LICENSE.txt",
   "homepage": "https://github.com/DigElements/extraction-grid/",
   "ignore": [
     "/.*",
     "/test/"
   ],
   "dependencies": {
-    "polymer": "Polymer/polymer#^1.7.0",
-    "confidence-marker": "DigElements/confidence-marker#2.0.0",
-    "fontawesome-iconset": "https://github.com/vangware/fontawesome-iconset.git#7f5826f89bac4e6d4fa61f64a9fe13978aaa7b38",
-    "icon-label": "DigElements/icon-label#1.0.5",
-    "iron-elements": "PolymerElements/iron-elements#^1.0.10",
-    "iron-flex-layout": "PolymerElements/iron-flex-layout#1.3.1",
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7",
-    "tag-extraction-buttons": "DigElements/tag-extraction-buttons#1.0.1"
+    "polymer": "Polymer/polymer#^2.0.2",
+    "confidence-marker": "DigElements/confidence-marker#3.0.0",
+    "fontawesome-iconset": "https://github.com/vangware/fontawesome-iconset.git#09ac70f619bb44d73fefc5f9524ae29ab217ed15",
+    "icon-label": "DigElements/icon-label#2.0.0",
+    "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
+    "iron-icon": "PolymerElements/iron-icon#^2.0.0",
+    "iron-icons": "PolymerElements/iron-icons#^2.0.0",
+    "paper-styles": "PolymerElements/paper-styles#^2.0.0",
+    "tag-extraction-buttons": "DigElements/tag-extraction-buttons#2.0.0"
   },
   "devDependencies": {
-    "iron-component-page": "PolymerElements/iron-component-page#^1.1.7",
-    "web-component-tester": "^5.0.0"
+    "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
+    "web-component-tester": "^6.0.0"
   }
 }
