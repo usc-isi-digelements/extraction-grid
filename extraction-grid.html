@@ -370,7 +370,7 @@ Custom property                            | Description                        
         /**
          * (Output)
          *
-         * The provenance data and result ID to show in the provenance dialog.  An object containing {Array} data and {Number|String} id.
+         * The provenance data and result ID to show in the provenance dialog.  Contains {Number|String} confidence, {Array} data, and {Number|String} id.
          *
          * @type {Object}
          */
@@ -461,6 +461,7 @@ Custom property                            | Description                        
       _updateShowProvenances: function(event) {
         if(event.detail.value) {
           this.set('showProvenances', {
+            confidence: event.model.extraction[this.dataConfidenceProperty],
             data: event.model.extraction[this.dataProvenancesProperty],
             id: this.resultId
           });

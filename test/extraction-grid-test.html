@@ -266,6 +266,7 @@ limitations under the License.
           },
           model: {
             extraction: {
+              confidence: 100,
               provenances: [{
                 method: 'provenanceMethod2',
                 text: 'provenanceText2'
@@ -275,6 +276,7 @@ limitations under the License.
         });
 
         expect(element.showProvenances).to.deep.equal({
+          confidence: 100,
           data: [{
             method: 'provenanceMethod2',
             text: 'provenanceText2'
@@ -290,6 +292,7 @@ limitations under the License.
           },
           model: {
             extraction: {
+              confidence: 100,
               provenances: [{
                 method: 'provenanceMethod2',
                 text: 'provenanceText2'
@@ -308,6 +311,7 @@ limitations under the License.
         markers[4].selected = true;
 
         expect(element.showProvenances).to.deep.equal({
+          confidence: 50,
           data: [{
             method: 'provenanceMethod1',
             text: 'provenanceText1'
