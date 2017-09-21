@@ -77,7 +77,6 @@ limitations under the License.
         expect(element.dataProperty).to.equal('data');
         expect(element.dataClassificationsProperty).to.equal('classifications');
         expect(element.dataConfidenceProperty).to.equal('confidence');
-        expect(element.dataHighlightProperty).to.equal('highlight');
         expect(element.dataIconProperty).to.equal('icon');
         expect(element.dataIdProperty).to.equal('id');
         expect(element.dataLinkProperty).to.equal('link');
@@ -86,10 +85,9 @@ limitations under the License.
         expect(element.dataTextProperty).to.equal('text');
         expect(element.dataTypeProperty).to.equal('type');
         expect(element.nameProperty).to.equal('name');
-        expect(element.provenanceMethodProperty).to.equal('method');
-        expect(element.provenanceTextProperty).to.equal('text');
         expect(element.resultId).to.equal('1234');
         expect(element.resultType).to.equal('document');
+        expect(element.showProvenances).to.not.exist;
         expect(element.tagManager).to.not.exist;
         expect(element.target).to.equal('_self');
       });
@@ -129,14 +127,10 @@ limitations under the License.
         }]);
       });
 
-      test('does show an extraction-list element', function() {
-        expect(element.$$('.extraction-list')).to.exist;
-      });
-
-      test('does show extraction elements', function() {
-        var extractions = Polymer.dom(element.root).querySelectorAll('.extraction');
-        expect(extractions).to.exist;
-        expect(extractions.length).to.equal(3);
+      test('does show extraction-list elements', function() {
+        var lists = Polymer.dom(element.root).querySelectorAll('.extraction-list');
+        expect(lists).to.exist;
+        expect(lists.length).to.equal(3);
       });
 
       test('does show extraction-name elements', function() {
@@ -159,33 +153,10 @@ limitations under the License.
         expect(markers).to.exist;
         expect(markers.length).to.equal(5);
         expect(markers[0].confidence).to.not.exist;
-        expect(markers[0].documentId).to.equal('1234');
-        expect(markers[0].provenanceMethodProperty).to.equal('method');
-        expect(markers[0].provenanceTextProperty).to.equal('text');
-        expect(markers[0].provenances).to.not.exist;
         expect(markers[1].confidence).to.not.exist;
-        expect(markers[1].documentId).to.equal('1234');
-        expect(markers[1].provenanceMethodProperty).to.equal('method');
-        expect(markers[1].provenanceTextProperty).to.equal('text');
-        expect(markers[1].provenances).to.not.exist;
         expect(markers[2].confidence).to.not.exist;
-        expect(markers[2].documentId).to.equal('1234');
-        expect(markers[2].provenanceMethodProperty).to.equal('method');
-        expect(markers[2].provenanceTextProperty).to.equal('text');
-        expect(markers[2].provenances).to.not.exist;
         expect(markers[3].confidence).to.equal(100);
-        expect(markers[3].documentId).to.equal('1234');
-        expect(markers[3].provenanceMethodProperty).to.equal('method');
-        expect(markers[3].provenanceTextProperty).to.equal('text');
-        expect(markers[3].provenances).to.not.exist;
         expect(markers[4].confidence).to.equal(50);
-        expect(markers[4].documentId).to.equal('1234');
-        expect(markers[4].provenanceMethodProperty).to.equal('method');
-        expect(markers[4].provenanceTextProperty).to.equal('text');
-        expect(markers[4].provenances).to.deep.equal([{
-          method: 'provenanceMethod1',
-          text: 'provenanceText1'
-        }]);
       });
 
       test('does not show tag-extraction-buttons elements if tagManager is undefined', function() {
@@ -285,6 +256,63 @@ limitations under the License.
           }
         }, 'property')).to.deep.equal({
           key: 'value'
+        });
+      });
+
+      test('_updateShowProvenances does set showProvenances', function() {
+        element._updateShowProvenances({
+          detail: {
+            value: true
+          },
+          model: {
+            extraction: {
+              provenances: [{
+                method: 'provenanceMethod2',
+                text: 'provenanceText2'
+              }]
+            }
+          }
+        });
+
+        expect(element.showProvenances).to.deep.equal({
+          data: [{
+            method: 'provenanceMethod2',
+            text: 'provenanceText2'
+          }],
+          id: '1234'
+        });
+      });
+
+      test('_updateShowProvenances does not set showProvenances if selected (event.detail.value) is false', function() {
+        element._updateShowProvenances({
+          detail: {
+            value: false
+          },
+          model: {
+            extraction: {
+              provenances: [{
+                method: 'provenanceMethod2',
+                text: 'provenanceText2'
+              }]
+            }
+          }
+        });
+
+        expect(element.showProvenances).to.not.exist;
+      });
+
+      test('showProvenances is set if a confidence-marker is selected', function() {
+        expect(element.showProvenances).to.not.exist;
+
+        var markers = Polymer.dom(element.root).querySelectorAll('confidence-marker');
+        markers[4].selected = true;
+
+        expect(element.showProvenances).to.deep.equal({
+          data: [{
+            method: 'provenanceMethod1',
+            text: 'provenanceText1'
+          }],
+          id: '1234'
         });
       });
     });

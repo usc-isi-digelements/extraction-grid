@@ -70,10 +70,9 @@ Custom property                            | Description                        
 
     <style>
       :host {
-        display: block;
-      }
-
-      .extraction-list {
+        @apply --layout-horizontal;
+        @apply --layout-center;
+        @apply --layout-wrap;
         font-size: 14px;
         line-height: 20px;
         overflow: hidden;
@@ -84,12 +83,13 @@ Custom property                            | Description                        
         -webkit-box-orient: vertical;
       }
 
-      .extraction-list > div {
+      .extraction-list {
         width: 50%;
       }
 
       .extraction-name {
         color: var(--extraction-grid-title-color, var(--secondary-text-color));
+        font-weight: 500;
         margin-bottom: 5px;
       }
 
@@ -99,12 +99,10 @@ Custom property                            | Description                        
 
       icon-label {
         display: inline-block;
-        border-radius: 5px;
         margin-right: 5px;
 
         --icon-label-text: {
           color: var(--extraction-grid-label-color, var(--primary-text-color));
-          padding: 0 5px;
           @apply --extraction-grid-label-mixin;
         };
 
@@ -113,8 +111,8 @@ Custom property                            | Description                        
         };
       }
 
-      .highlight ::content strong {
-        background-color: var(--extraction-grid-highlighted-text-color, yellow);
+      .highlight {
+        --icon-label-text-background-color: var(--extraction-grid-highlighted-text-color, yellow);
       }
 
       .no-extraction {
@@ -127,51 +125,45 @@ Custom property                            | Description                        
       }
     </style>
 
-    <div class="layout horizontal extraction-list wrap">
-      <template is="dom-repeat" items="[[extractions]]">
-        <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
-          <div class="layout vertical extraction">
-            <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
-              <strong class="extraction-name">[[_getProperty(item, nameProperty)]]</strong>
-            </template>
+    <template is="dom-repeat" items="[[extractions]]">
+      <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
+        <div class="layout vertical extraction-list">
+          <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
+            <span class="extraction-name">[[_getProperty(item, nameProperty)]]</span>
+          </template>
 
-            <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
-              <div class="layout horizontal center extraction-item" secondary>
-                <icon-label
-                  class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                  title$="Open [[_getProperty(extraction, dataTextProperty)]]"
-                  icon="[[_getProperty(extraction, dataIconProperty)]]"
-                  icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
-                  link="[[_getProperty(extraction, dataLinkProperty)]]"
-                  target="[[target]]"
-                  text="[[_getProperty(extraction, dataTextProperty)]]">
-                </icon-label>
+          <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
+            <div class="layout horizontal center extraction-item" secondary>
+              <icon-label
+                class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
+                title$="Open [[_getProperty(extraction, dataTextProperty)]]"
+                icon="[[_getProperty(extraction, dataIconProperty)]]"
+                icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                link="[[_getProperty(extraction, dataLinkProperty)]]"
+                target="[[target]]"
+                text="[[_getProperty(extraction, dataTextProperty)]]">
+              </icon-label>
 
-                <confidence-marker
-                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                  document-id="[[resultId]]"
-                  highlight-tag="[[highlightTag]]"
-                  provenance-method-property="[[provenanceMethodProperty]]"
-                  provenance-text-property="[[provenanceTextProperty]]"
-                  provenances="[[_getProperty(extraction, dataProvenancesProperty)]]">
-                </confidence-marker>
+              <confidence-marker
+                confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                on-selected-changed="_updateShowProvenances">
+              </confidence-marker>
 
-                <template is="dom-if" if="[[tagManager]]">
-                  <tag-extraction-buttons
-                    classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
-                    entity-id="[[resultId]]"
-                    entity-type="[[resultType]]"
-                    extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
-                    extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
-                    tag-manager="[[tagManager]]">
-                  </tag-extraction-buttons>
-                </template>
-              </div>
-            </template>
-          </div>
-        </template>
+              <template is="dom-if" if="[[tagManager]]">
+                <tag-extraction-buttons
+                  classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
+                  entity-id="[[resultId]]"
+                  entity-type="[[resultType]]"
+                  extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
+                  extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
+                  tag-manager="[[tagManager]]">
+                </tag-extraction-buttons>
+              </template>
+            </div>
+          </template>
+        </div>
       </template>
-    </div>
+    </template>
   </template>
 
   <script>
@@ -343,17 +335,6 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
-         * The highlight tag for the confidence-marker.
-         *
-         * @type {String}
-         */
-        highlightTag: {
-          type: String
-        },
-
-        /**
-         * (Optional)
-         *
          * The name property in the extraction objects.
          *
          * @type {String}
@@ -362,32 +343,6 @@ Custom property                            | Description                        
         nameProperty: {
           type: String,
           value: 'name'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The method property in provenance objects from the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'method'
-         */
-        provenanceMethodProperty: {
-          type: String,
-          value: 'method'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The text property in provenance objects from the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'text'
-         */
-        provenanceTextProperty: {
-          type: String,
-          value: 'text'
         },
 
         /**
@@ -410,6 +365,18 @@ Custom property                            | Description                        
          */
         resultType: {
           type: String
+        },
+
+        /**
+         * (Output)
+         *
+         * The provenance data and result ID to show in the provenance dialog.  An object containing {Array} data and {Number|String} id.
+         *
+         * @type {Object}
+         */
+        showProvenances: {
+          notify: true,
+          type: Object
         },
 
         /**
@@ -483,6 +450,21 @@ Custom property                            | Description                        
        */
       _getProperty: function(item, property) {
         return item ? item[property] : undefined;
+      },
+
+      /**
+       * Updates `showProvenances` with the extraction in the given event if the extraction was selected.
+       *
+       * @param {Event} event
+       * @private
+       */
+      _updateShowProvenances: function(event) {
+        if(event.detail.value) {
+          this.set('showProvenances', {
+            data: event.model.extraction[this.dataProvenancesProperty],
+            id: this.resultId
+          });
+        }
       }
     });
   })();
