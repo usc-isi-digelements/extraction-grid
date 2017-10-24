@@ -90,15 +90,15 @@ Custom property                            | Description                        
       .extraction-name {
         color: var(--extraction-grid-title-color, var(--secondary-text-color));
         font-weight: 500;
-        margin-bottom: 5px;
+        margin: 0 10px;
       }
 
       .extraction-item {
-        margin-bottom: 5px;
+        margin: 5px;
+        padding: 5px;
       }
 
       icon-label {
-        display: inline-block;
         margin-right: 5px;
 
         --icon-label-text: {
@@ -109,6 +109,10 @@ Custom property                            | Description                        
         --icon-label-link-hover: {
           color: var(--extraction-grid-hover-color, var(--secondary-text-color));
         };
+      }
+
+      .extraction-item:hover {
+        background-color: rgba(0,0,0,0.1);
       }
 
       .highlight {
@@ -132,35 +136,38 @@ Custom property                            | Description                        
             <span class="extraction-name">[[_getProperty(item, nameProperty)]]</span>
           </template>
 
-          <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
-            <div class="layout horizontal center extraction-item" secondary>
-              <icon-label
-                class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                title$="Open [[_getProperty(extraction, dataTextProperty)]]"
-                icon="[[_getProperty(extraction, dataIconProperty)]]"
-                icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
-                link="[[_getProperty(extraction, dataLinkProperty)]]"
-                target="[[target]]"
-                text="[[_getProperty(extraction, dataTextProperty)]]">
-              </icon-label>
+          <div class="layout horizontal wrap">
+            <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
+              <div class="layout horizontal center extraction-item">
+                <icon-label
+                  class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
+                  title$="Open [[_getProperty(extraction, dataTextProperty)]]"
+                  icon="[[_getProperty(extraction, dataIconProperty)]]"
+                  icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                  link="[[_getProperty(extraction, dataLinkProperty)]]"
+                  target="[[target]]"
+                  text="[[_getProperty(extraction, dataTextProperty)]]"
+                  width="[[_getProperty(extraction, dataWidthProperty)]]">
+                </icon-label>
 
-              <confidence-marker
-                confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                on-selected-changed="_updateShowProvenances">
-              </confidence-marker>
+                <confidence-marker
+                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                  on-selected-changed="_updateShowProvenances">
+                </confidence-marker>
 
-              <template is="dom-if" if="[[tagManager]]">
-                <tag-extraction-buttons
-                  classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
-                  entity-id="[[resultId]]"
-                  entity-type="[[resultType]]"
-                  extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
-                  extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
-                  tag-manager="[[tagManager]]">
-                </tag-extraction-buttons>
-              </template>
-            </div>
-          </template>
+                <template is="dom-if" if="[[tagManager]]">
+                  <tag-extraction-buttons
+                    classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
+                    entity-id="[[resultId]]"
+                    entity-type="[[resultType]]"
+                    extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
+                    extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
+                    tag-manager="[[tagManager]]">
+                  </tag-extraction-buttons>
+                </template>
+              </div>
+            </template>
+          </div>
         </div>
       </template>
     </template>
@@ -330,6 +337,19 @@ Custom property                            | Description                        
         dataTypeProperty: {
           type: String,
           value: 'type'
+        },
+
+        /**
+         * (Optional)
+         *
+         * The width property in the data objects from the extraction objects.
+         *
+         * @type {String}
+         * @default 'width'
+         */
+        dataWidthProperty: {
+          type: String,
+          value: 'width'
         },
 
         /**
