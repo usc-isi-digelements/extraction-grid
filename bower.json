@@ -1,7 +1,7 @@
 {
   "name": "extraction-grid",
   "description": "A Polymer Element showing a grid of extractions.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
   "keywords": [
