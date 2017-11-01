@@ -89,18 +89,15 @@ Custom property                            | Description                        
       .extraction-name {
         color: var(--extraction-grid-title-color, var(--secondary-text-color));
         font-weight: 500;
-        margin: 0 10px;
+        margin-bottom: 5px;
       }
 
       .extraction-item {
         border-radius: 2px;
-        margin: 5px;
-        padding: 5px;
+        margin: 0 10px 5px 0;
       }
 
       icon-label {
-        margin-right: 5px;
-
         --icon-label-text: {
           color: var(--extraction-grid-label-color, var(--primary-text-color));
           @apply --extraction-grid-label-mixin;
@@ -111,12 +108,12 @@ Custom property                            | Description                        
         };
       }
 
-      .extraction-item:hover {
-        background-color: rgba(0,0,0,0.1);
-      }
-
       .highlight {
         --icon-label-text-background-color: var(--extraction-grid-highlighted-text-color, yellow);
+
+        --icon-label-text: {
+          padding: 0 5px;
+        };
       }
 
       .no-extraction {
@@ -126,6 +123,14 @@ Custom property                            | Description                        
 
       .hide {
         display: none;
+      }
+
+      confidence-marker {
+        margin-right: 5px;
+      }
+
+      tag-extraction-buttons {
+        margin-left: 5px;
       }
     </style>
 
@@ -148,12 +153,12 @@ Custom property                            | Description                        
                   target="[[target]]"
                   text="[[_getProperty(extraction, dataTextProperty)]]"
                   width="[[_getProperty(extraction, dataWidthProperty)]]">
-                </icon-label>
 
-                <confidence-marker
-                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                  on-selected-changed="_updateShowProvenances">
-                </confidence-marker>
+                  <confidence-marker
+                    confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                    on-selected-changed="_updateShowProvenances">
+                  </confidence-marker>
+                </icon-label>
 
                 <template is="dom-if" if="[[tagManager]]">
                   <tag-extraction-buttons
