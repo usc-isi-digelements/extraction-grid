@@ -74,6 +74,7 @@ limitations under the License.
       });
 
       test('properties are set as expected', function() {
+        expect(element.compressed).to.be.false;
         expect(element.dataProperty).to.equal('data');
         expect(element.dataClassificationsProperty).to.equal('classifications');
         expect(element.dataConfidenceProperty).to.equal('confidence');
@@ -258,6 +259,58 @@ limitations under the License.
         }, 'property')).to.deep.equal({
           key: 'value'
         });
+      });
+
+      test('_getTitleTooltipText does return as expected', function() {
+        expect(element._getTitleTooltipText).to.be.a('Function');
+        expect(element._getTitleTooltipText({}, '', '')).to.not.exist;
+        expect(element._getTitleTooltipText({}, 'link', 'text')).to.not.exist;
+        expect(element._getTitleTooltipText({
+          notext: 'My Text'
+        }, 'link', 'text')).to.not.exist;
+        expect(element._getTitleTooltipText({
+          text: 'My Text'
+        }, 'link', 'notext')).to.not.exist;
+        expect(element._getTitleTooltipText({
+          text: 'My Text'
+        }, 'link', 'text')).to.equal('My Text');
+        expect(element._getTitleTooltipText({
+          nolink: 'My Link',
+          text: 'My Text'
+        }, 'link', 'text')).to.equal('My Text');
+        expect(element._getTitleTooltipText({
+          link: 'My Link',
+          text: 'My Text'
+        }, 'nolink', 'text')).to.equal('My Text');
+        expect(element._getTitleTooltipText({
+          link: 'My Link',
+          text: 'My Text'
+        }, 'link', 'text')).to.equal('Open My Text');
+      });
+
+      test('_handleTapEvent does call event.stopPropagation if event.model.extraction[dataLinkProperty] is defined', function() {
+        var called = false;
+        var testEvent = {
+          model: {
+            extraction: {}
+          },
+          stopPropagation: function() {
+            called = true;
+          }
+        };
+
+        element._handleTapEvent(testEvent);
+        expect(called).to.be.false;
+
+        testEvent.model.extraction.link = 'link';
+        element._handleTapEvent(testEvent);
+        expect(called).to.be.true;
+        called = false;
+
+        testEvent.model.extraction.testLink = 'link';
+        element.dataLinkProperty = 'testLink';
+        element._handleTapEvent(testEvent);
+        expect(called).to.be.true;
       });
 
       test('_updateShowProvenances does set showProvenances', function() {

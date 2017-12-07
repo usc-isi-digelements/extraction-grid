@@ -89,12 +89,12 @@ Custom property                            | Description                        
       .extraction-name {
         color: var(--extraction-grid-title-color, var(--secondary-text-color));
         font-weight: 500;
-        margin-bottom: 5px;
+        margin-top: 5px;
       }
 
       .extraction-item {
         border-radius: 2px;
-        margin: 0 10px 5px 0;
+        margin: 5px 10px 0 0;
       }
 
       icon-label {
@@ -134,46 +134,87 @@ Custom property                            | Description                        
       }
     </style>
 
-    <template is="dom-repeat" items="[[extractions]]">
-      <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
-        <div class="layout vertical extraction-list">
-          <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
-            <span class="extraction-name">[[_getProperty(item, nameProperty)]]</span>
+    <template is="dom-if" if="[[compressed]]">
+      <div class="layout horizontal wrap">
+        <template is="dom-repeat" items="[[extractions]]">
+          <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
+            <div class="layout horizontal center extraction-item">
+              <icon-label
+                class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
+                title$="[[_getTitleTooltipText(extraction, dataLinkProperty, dataTextProperty)]]"
+                icon="[[_getProperty(extraction, dataIconProperty)]]"
+                icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                link="[[_getProperty(extraction, dataLinkProperty)]]"
+                target="[[target]]"
+                text="[[_getProperty(extraction, dataTextProperty)]]"
+                width="[[_getProperty(extraction, dataWidthProperty)]]"
+                on-tap="_handleTapEvent">
+
+                <confidence-marker
+                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                  on-selected-changed="_updateShowProvenances">
+                </confidence-marker>
+              </icon-label>
+
+              <template is="dom-if" if="[[tagManager]]">
+                <tag-extraction-buttons
+                  classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
+                  entity-id="[[resultId]]"
+                  entity-type="[[resultType]]"
+                  extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
+                  extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
+                  tag-manager="[[tagManager]]">
+                </tag-extraction-buttons>
+              </template>
+            </div>
           </template>
+        </template>
+      </div>
+    </template>
 
-          <div class="layout horizontal wrap">
-            <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
-              <div class="layout horizontal center extraction-item">
-                <icon-label
-                  class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                  title$="Open [[_getProperty(extraction, dataTextProperty)]]"
-                  icon="[[_getProperty(extraction, dataIconProperty)]]"
-                  icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
-                  link="[[_getProperty(extraction, dataLinkProperty)]]"
-                  target="[[target]]"
-                  text="[[_getProperty(extraction, dataTextProperty)]]"
-                  width="[[_getProperty(extraction, dataWidthProperty)]]">
-
-                  <confidence-marker
-                    confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                    on-selected-changed="_updateShowProvenances">
-                  </confidence-marker>
-                </icon-label>
-
-                <template is="dom-if" if="[[tagManager]]">
-                  <tag-extraction-buttons
-                    classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
-                    entity-id="[[resultId]]"
-                    entity-type="[[resultType]]"
-                    extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
-                    extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
-                    tag-manager="[[tagManager]]">
-                  </tag-extraction-buttons>
-                </template>
-              </div>
+    <template is="dom-if" if="[[!compressed]]">
+      <template is="dom-repeat" items="[[extractions]]">
+        <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
+          <div class="layout vertical extraction-list">
+            <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
+              <span class="extraction-name">[[_getProperty(item, nameProperty)]]</span>
             </template>
+
+            <div class="layout horizontal wrap">
+              <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
+                <div class="layout horizontal center extraction-item">
+                  <icon-label
+                    class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
+                    title$="[[_getTitleTooltipText(extraction, dataLinkProperty, dataTextProperty)]]"
+                    icon="[[_getProperty(extraction, dataIconProperty)]]"
+                    icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                    link="[[_getProperty(extraction, dataLinkProperty)]]"
+                    target="[[target]]"
+                    text="[[_getProperty(extraction, dataTextProperty)]]"
+                    width="[[_getProperty(extraction, dataWidthProperty)]]"
+                    on-tap="_handleTapEvent">
+
+                    <confidence-marker
+                      confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                      on-selected-changed="_updateShowProvenances">
+                    </confidence-marker>
+                  </icon-label>
+
+                  <template is="dom-if" if="[[tagManager]]">
+                    <tag-extraction-buttons
+                      classification="[[_getProperty(extraction, dataClassificationsProperty)]]"
+                      entity-id="[[resultId]]"
+                      entity-type="[[resultType]]"
+                      extraction-field="[[_getProperty(extraction, dataTypeProperty)]]"
+                      extraction-key="[[_getProperty(extraction, dataIdProperty)]]"
+                      tag-manager="[[tagManager]]">
+                    </tag-extraction-buttons>
+                  </template>
+                </div>
+              </template>
+            </div>
           </div>
-        </div>
+        </template>
       </template>
     </template>
   </template>
@@ -186,6 +227,19 @@ Custom property                            | Description                        
       is: 'extraction-grid',
 
       properties: {
+        /**
+         * (Optional)
+         *
+         * Whether to show the compressed extraction-grid.
+         *
+         * @type {Boolean}
+         * @default false
+         */
+        compressed: {
+          type: Boolean,
+          value: false
+        },
+
         /**
          * (Required)
          *
@@ -475,6 +529,31 @@ Custom property                            | Description                        
        */
       _getProperty: function(item, property) {
         return item ? item[property] : undefined;
+      },
+
+      /**
+       * Returns the title (tooltip) text for the given item.
+       *
+       * @param {Object} item
+       * @param {String} linkProperty
+       * @param {String} textProperty
+       * @return {Object}
+       * @private
+       */
+      _getTitleTooltipText: function(item, linkProperty, textProperty) {
+        return item && item[textProperty] ? (item[linkProperty] ? ('Open ' + item[textProperty]) : item[textProperty]) : undefined;
+      },
+
+      /**
+       * Stops propagation of the given event if the user accessed a link.
+       *
+       * @event tap
+       * @private
+       */
+      _handleTapEvent: function(event) {
+        if(event.model.extraction[this.dataLinkProperty]) {
+          event.stopPropagation();
+        }
       },
 
       /**
