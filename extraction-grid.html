@@ -74,10 +74,15 @@ Custom property                            | Description                        
         @apply --layout-wrap;
         font-size: 14px;
         line-height: 20px;
+        max-height: 100px;
+        min-height: 20px;
+
+        /* Needed to fix flexbox layout issues in newer browsers. */
+        display: -webkit-box;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
-        word-break: break-word;
+        word-break: break-all;
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
       }
