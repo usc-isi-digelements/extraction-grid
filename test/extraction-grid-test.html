@@ -86,6 +86,7 @@ limitations under the License.
         expect(element.dataTextProperty).to.equal('text');
         expect(element.dataTypeProperty).to.equal('type');
         expect(element.dataWidthProperty).to.equal('width');
+        expect(element.hideConfidences).to.be.false;
         expect(element.nameProperty).to.equal('name');
         expect(element.resultId).to.equal('1234');
         expect(element.resultType).to.equal('document');
@@ -261,31 +262,31 @@ limitations under the License.
         });
       });
 
-      test('_getTitleTooltipText does return as expected', function() {
-        expect(element._getTitleTooltipText).to.be.a('Function');
-        expect(element._getTitleTooltipText({}, '', '')).to.not.exist;
-        expect(element._getTitleTooltipText({}, 'link', 'text')).to.not.exist;
-        expect(element._getTitleTooltipText({
+      test('_getTextTitleTooltip does return as expected', function() {
+        expect(element._getTextTitleTooltip).to.be.a('Function');
+        expect(element._getTextTitleTooltip({}, '', '')).to.not.exist;
+        expect(element._getTextTitleTooltip({}, 'link', 'text')).to.not.exist;
+        expect(element._getTextTitleTooltip({
           notext: 'My Text'
         }, 'link', 'text')).to.not.exist;
-        expect(element._getTitleTooltipText({
+        expect(element._getTextTitleTooltip({
           text: 'My Text'
         }, 'link', 'notext')).to.not.exist;
-        expect(element._getTitleTooltipText({
+        expect(element._getTextTitleTooltip({
           text: 'My Text'
         }, 'link', 'text')).to.equal('My Text');
-        expect(element._getTitleTooltipText({
+        expect(element._getTextTitleTooltip({
           nolink: 'My Link',
           text: 'My Text'
         }, 'link', 'text')).to.equal('My Text');
-        expect(element._getTitleTooltipText({
+        expect(element._getTextTitleTooltip({
           link: 'My Link',
           text: 'My Text'
         }, 'nolink', 'text')).to.equal('My Text');
-        expect(element._getTitleTooltipText({
+        expect(element._getTextTitleTooltip({
           link: 'My Link',
           text: 'My Text'
-        }, 'link', 'text')).to.equal('Open My Text');
+        }, 'link', 'text')).to.equal('Click to Open My Text');
       });
 
       test('_handleTapEvent does call event.stopPropagation if event.model.extraction[dataLinkProperty] is defined', function() {

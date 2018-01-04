@@ -144,19 +144,24 @@ Custom property                            | Description                        
             <div class="layout horizontal center extraction-item">
               <icon-label
                 class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                title$="[[_getTitleTooltipText(extraction, dataLinkProperty, dataTextProperty)]]"
                 icon="[[_getProperty(extraction, dataIconProperty)]]"
                 icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                icon-title-tooltip="Click to Open Extraction Evidence"
                 link="[[_getProperty(extraction, dataLinkProperty)]]"
+                tappable
                 target="[[target]]"
                 text="[[_getProperty(extraction, dataTextProperty)]]"
+                text-title-tooltip="[[_getTextTitleTooltip(extraction, dataLinkProperty, dataTextProperty)]]"
                 width="[[_getProperty(extraction, dataWidthProperty)]]"
+                on-tapped-changed="_updateShowProvenances"
                 on-tap="_handleTapEvent">
 
-                <confidence-marker
-                  confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                  on-selected-changed="_updateShowProvenances">
-                </confidence-marker>
+                <template is="dom-if" if="[[!hideConfidences]]">
+                  <confidence-marker
+                    confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                    on-selected-changed="_updateShowProvenances">
+                  </confidence-marker>
+                </template>
               </icon-label>
 
               <template is="dom-if" if="[[tagManager]]">
@@ -188,19 +193,24 @@ Custom property                            | Description                        
                 <div class="layout horizontal center extraction-item">
                   <icon-label
                     class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                    title$="[[_getTitleTooltipText(extraction, dataLinkProperty, dataTextProperty)]]"
                     icon="[[_getProperty(extraction, dataIconProperty)]]"
                     icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
+                    icon-title-tooltip="Click to Open Extraction Evidence"
                     link="[[_getProperty(extraction, dataLinkProperty)]]"
+                    tappable
                     target="[[target]]"
                     text="[[_getProperty(extraction, dataTextProperty)]]"
+                    text-title-tooltip="[[_getTextTitleTooltip(extraction, dataLinkProperty, dataTextProperty)]]"
                     width="[[_getProperty(extraction, dataWidthProperty)]]"
+                    on-tapped-changed="_updateShowProvenances"
                     on-tap="_handleTapEvent">
 
-                    <confidence-marker
-                      confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                      on-selected-changed="_updateShowProvenances">
-                    </confidence-marker>
+                    <template is="dom-if" if="[[!hideConfidences]]">
+                      <confidence-marker
+                        confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
+                        on-selected-changed="_updateShowProvenances">
+                      </confidence-marker>
+                    </template>
                   </icon-label>
 
                   <template is="dom-if" if="[[tagManager]]">
@@ -417,6 +427,19 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * Whether to hide the confidences.
+         *
+         * @type {Boolean}
+         * @default false
+         */
+        hideConfidences: {
+          type: Boolean,
+          value: false
+        },
+
+        /**
+         * (Optional)
+         *
          * The name property in the extraction objects.
          *
          * @type {String}
@@ -535,7 +558,7 @@ Custom property                            | Description                        
       },
 
       /**
-       * Returns the title (tooltip) text for the given item.
+       * Returns the title (tooltip) for the text for the given item.
        *
        * @param {Object} item
        * @param {String} linkProperty
@@ -543,8 +566,8 @@ Custom property                            | Description                        
        * @return {Object}
        * @private
        */
-      _getTitleTooltipText: function(item, linkProperty, textProperty) {
-        return item && item[textProperty] ? (item[linkProperty] ? ('Open ' + item[textProperty]) : item[textProperty]) : undefined;
+      _getTextTitleTooltip: function(item, linkProperty, textProperty) {
+        return item && item[textProperty] ? (item[linkProperty] ? ('Click to Open ' + item[textProperty]) : item[textProperty]) : undefined;
       },
 
       /**
