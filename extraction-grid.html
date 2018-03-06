@@ -80,7 +80,9 @@ Custom property                            | Description                        
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: normal;
+        /* Use break-all for Firefox and override with break-word for Chrome and Safari. */
         word-break: break-all;
+        word-break: break-word;
         -webkit-line-clamp: 5;
         -webkit-box-orient: vertical;
       }
