@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../iron-icon/iron-icon.html">
 <link rel="import" href="../iron-icons/iron-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../paper-styles/color.html">
 <link rel="import" href="../paper-styles/default-theme.html">
 <link rel="import" href="../tag-extraction-buttons/tag-extraction-buttons.html">
@@ -56,10 +57,10 @@ extractions = [{
 Custom property                            | Description                                 | Default
 -------------------------------------------|---------------------------------------------|-----------------------
 `--extraction-grid-highlighted-text-color` | The color of the highlighted text.          | yellow
-`--extraction-grid-hover-color`            | The color of the extraction label on hover. | --secondary-text-color
-`--extraction-grid-label-color`            | The color of the extraction label.          | --primary-text-color
+`--extraction-grid-hover-color`            | The color of the extraction label on hover. | --paper-indigo-900
+`--extraction-grid-label-color`            | The color of the extraction label.          | --paper-grey-900
 `--extraction-grid-label-mixin`            | Mixin applied to the extraction label.      | {}
-`--extraction-grid-title-color`            | The color of the extraction title.          | --secondary-text-color
+`--extraction-grid-title-color`            | The color of the extraction title.          | --paper-grey-900
 
 @demo demo/index.html
 -->
@@ -72,6 +73,7 @@ Custom property                            | Description                        
       :host {
         @apply --layout-horizontal;
         @apply --layout-wrap;
+        color: var(--paper-grey-900);
         font-size: 14px;
         line-height: 20px;
         min-height: 20px;
@@ -88,29 +90,52 @@ Custom property                            | Description                        
       }
 
       .extraction-list {
+        margin: 10px 10px 0 0;
+        padding: 5px;
         width: 50%;
       }
 
-      .extraction-name {
-        color: var(--extraction-grid-title-color, var(--secondary-text-color));
-        font-weight: 500;
-        margin-top: 5px;
+      .extraction-name icon-label {
+        --icon-label-text: {
+          color: var(--extraction-grid-title-color, var(--paper-grey-900));
+          @apply --extraction-grid-label-mixin;
+        };
+      }
+
+      .extraction-item-list {
+        margin-left: 2px;
       }
 
       .extraction-item {
         border-radius: 2px;
-        margin: 5px 10px 0 0;
+        margin: 5px 5px 0 0;
       }
 
-      icon-label {
+      .extraction-item icon-label {
         --icon-label-text: {
-          color: var(--extraction-grid-label-color, var(--primary-text-color));
+          color: var(--extraction-grid-label-color, var(--paper-grey-900));
           @apply --extraction-grid-label-mixin;
         };
 
         --icon-label-link-hover: {
-          color: var(--extraction-grid-hover-color, var(--secondary-text-color));
+          color: var(--extraction-grid-hover-color, var(--paper-indigo-900));
         };
+      }
+
+      paper-icon-button {
+        height: 20px;
+        width: 20px;
+        margin-left: 5px;
+        padding: 0;
+        visibility: hidden;
+      }
+
+      paper-icon-button:hover {
+        color: var(--extraction-grid-hover-color, var(--paper-indigo-900));
+      }
+
+      .extraction-list:hover paper-icon-button {
+        visibility: visible;
       }
 
       .highlight {
@@ -122,7 +147,7 @@ Custom property                            | Description                        
       }
 
       .no-extraction {
-        color: var(--extraction-grid-label-color, var(--primary-text-color));
+        color: var(--extraction-grid-label-color, var(--paper-grey-900));
         margin-bottom: 5px;
       }
 
@@ -136,6 +161,30 @@ Custom property                            | Description                        
 
       tag-extraction-buttons {
         margin-left: 5px;
+      }
+
+      @media all and (min-width: 1001px) and (max-width: 1250px) {
+        .extraction-list {
+          width: 33.3%;
+        }
+      }
+
+      @media all and (min-width: 1251px) and (max-width: 1500px) {
+        .extraction-list {
+          width: 25%;
+        }
+      }
+
+      @media all and (min-width: 1501px) and (max-width: 1750px) {
+        .extraction-list {
+          width: 20%;
+        }
+      }
+
+      @media all and (min-width: 1751px) {
+        .extraction-list {
+          width: 16.6%;
+        }
       }
     </style>
 
@@ -187,25 +236,32 @@ Custom property                            | Description                        
         <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
           <div class="layout vertical extraction-list">
             <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
-              <span class="extraction-name">[[_getProperty(item, nameProperty)]]</span>
+              <div class="layout horizontal center extraction-name">
+                <icon-label
+                  icon="[[_getProperty(item, iconProperty)]]"
+                  icon-style-class="[[_getProperty(item, styleClassProperty)]]"
+                  target="[[target]]"
+                  text="[[_getProperty(item, nameProperty)]]"
+                  text-title-tooltip="[[_getProperty(item, nameProperty)]]"
+                  width="[[_getProperty(item, widthProperty)]]">
+                </icon-label>
+
+                <paper-icon-button icon="icons:help" title="Click to Open Extraction Evidence" on-tap="_updateShowProvenances"></paper-icon-button>
+              </div>
             </template>
 
-            <div class="layout horizontal wrap">
+            <div class="layout horizontal wrap extraction-item-list">
               <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
                 <div class="layout horizontal center extraction-item">
                   <icon-label
                     class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
-                    icon="[[_getProperty(extraction, dataIconProperty)]]"
-                    icon-style-class="[[_getProperty(extraction, dataStyleClassProperty)]]"
-                    icon-title-tooltip="Click to Open Extraction Evidence"
                     link="[[_getProperty(extraction, dataLinkProperty)]]"
+                    on-tap="_handleTapEvent"
                     tappable
                     target="[[target]]"
                     text="[[_getProperty(extraction, dataTextProperty)]]"
                     text-title-tooltip="[[_getTextTitleTooltip(extraction, dataLinkProperty, dataTextProperty)]]"
-                    width="[[_getProperty(extraction, dataWidthProperty)]]"
-                    on-tapped-changed="_updateShowProvenances"
-                    on-tap="_handleTapEvent">
+                    width="[[_getProperty(extraction, dataWidthProperty)]]">
 
                     <template is="dom-if" if="[[!hideConfidences]]">
                       <confidence-marker
@@ -442,6 +498,19 @@ Custom property                            | Description                        
         /**
          * (Optional)
          *
+         * The icon property in the extraction objects.
+         *
+         * @type {String}
+         * @default 'icon'
+         */
+        iconProperty: {
+          type: String,
+          value: 'icon'
+        },
+
+        /**
+         * (Optional)
+         *
          * The name property in the extraction objects.
          *
          * @type {String}
@@ -479,11 +548,24 @@ Custom property                            | Description                        
          *
          * The provenance data and result ID to show in the provenance dialog.  Contains {Number|String} confidence, {Array} data, and {Number|String} id.
          *
-         * @type {Object}
+         * @type {Array}
          */
         showProvenances: {
           notify: true,
-          type: Object
+          type: Array
+        },
+
+        /**
+         * (Optional)
+         *
+         * The style class property in the extraction objects.
+         *
+         * @type {String}
+         * @default 'styleClass'
+         */
+        styleClassProperty: {
+          type: String,
+          value: 'styleClass'
         },
 
         /**
@@ -508,6 +590,19 @@ Custom property                            | Description                        
         target: {
           type: String,
           value: '_self'
+        },
+
+        /**
+         * (Optional)
+         *
+         * The width property in the extraction objects.
+         *
+         * @type {String}
+         * @default 'width'
+         */
+        widthProperty: {
+          type: String,
+          value: 'width'
         }
       },
 
@@ -579,24 +674,43 @@ Custom property                            | Description                        
        * @private
        */
       _handleTapEvent: function(event) {
-        if(event.model.extraction[this.dataLinkProperty]) {
+        if(event.model.extraction && event.model.extraction[this.dataLinkProperty]) {
           event.stopPropagation();
         }
       },
 
       /**
-       * Updates `showProvenances` with the extraction in the given event if the extraction was selected.
+       * Updates `showProvenances` with an extraction in the given event if the extraction was selected.
        *
        * @param {Event} event
        * @private
        */
       _updateShowProvenances: function(event) {
         if(event.detail.value) {
-          this.set('showProvenances', {
-            confidence: event.model.extraction[this.dataConfidenceProperty],
-            data: event.model.extraction[this.dataProvenancesProperty],
-            id: this.resultId
+          event.stopPropagation();
+          if(event.model.extraction) {
+            this.set('showProvenances', [{
+              confidence: event.model.extraction[this.dataConfidenceProperty],
+              documentId: this.resultId,
+              extraction: event.model.extraction[this.dataTextProperty],
+              provenances: event.model.extraction[this.dataProvenancesProperty]
+            }]);
+            return;
+          }
+        }
+
+        if(event.model.item) {
+          event.stopPropagation();
+          var self = this;
+          var data = this._getList(event.model.item, this.dataProperty).map(function(extraction) {
+            return {
+              confidence: extraction[self.dataConfidenceProperty],
+              documentId: self.resultId,
+              extraction: extraction[self.dataTextProperty],
+              provenances: extraction[self.dataProvenancesProperty]
+            };
           });
+          this.set('showProvenances', data);
         }
       }
     });
