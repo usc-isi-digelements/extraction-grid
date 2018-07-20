@@ -4,24 +4,21 @@
   "version": "2.3.3",
   "authors": ["Next Century Corporation"],
   "license": "Apache-2.0",
-  "keywords": [
-    "web-component",
-    "polymer"
-  ],
+  "keywords": ["web-component", "polymer"],
   "main": "extraction-grid.html",
   "homepage": "https://github.com/DigElements/extraction-grid/",
-  "ignore": [
-    "/.*",
-    "/test/"
-  ],
+  "ignore": ["/.*", "/test/"],
   "dependencies": {
-    "polymer": "Polymer/polymer#2.5.0",
-    "confidence-marker": "DigElements/confidence-marker#2.3.2",
-    "icon-button": "DigElements/icon-button#2.0.1",
-    "icon-label": "DigElements/icon-label#2.2.0",
+    "polymer": "Polymer/polymer#^2.5.0",
+    "confidence-marker":
+      "https://github.com/KimQ0126/confidence-marker.git#1dcd9b0935a82d888cb88c7e4b39bbdb3042cbf3",
+    "icon-button": "https://github.com/KimQ0126/icon-button.git#2.0.2",
+    "icon-label":
+      "https://github.com/KimQ0126/icon-label.git#36105511c3ffc67ebd19008536e05db823bcb6b2",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
-    "tag-extraction-buttons": "DigElements/tag-extraction-buttons#2.1.0"
+    "tag-extraction-buttons":
+      "https://github.com/KimQ0126/tag-extraction-buttons.git#2214ed2614a86c7f5aa7cb5f9b01aa7486d851a0"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",

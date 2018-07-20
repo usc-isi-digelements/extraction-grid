@@ -41,91 +41,164 @@ limitations under the License.
   </dom-bind>
 
   <script>
-    (function(document) {
-      var demo = document.querySelector('dom-bind');
+  (function(document) {
+  var demo = document.querySelector('dom-bind');
 
-      demo.extractions = [{
-        data: [{
+  demo.extractions = [
+    {
+      name: 'Only Text',
+      data: [
+        {
           icon: 'star',
-          text: 'Extraction with No Name'
-        }]
-      }, {
-        name: 'Extraction with No Data',
-        data: []
-      }, {
-        name: 'Next Century',
-        data: [{
-          classifications: {
-            database: 'positive',
-            type: 'type',
-            user: ''
-          },
-          confidence: 100,
+          text: 'Extraction with only text'
+        }
+      ]
+    },
+    {
+      name: 'Long field name with short value',
+      data: [
+        {
+          icon: 'star',
+          text: 'short value'
+        }
+      ]
+    },
+    {
+      name: 'Long field name with short value',
+      data: [
+        {
+          icon: 'star',
+          text: 'short value'
+        }
+      ]
+    },
+    {
+      name: 'Long field name with short value',
+      data: [
+        {
+          icon: 'star',
+          text: 'short value'
+        }
+      ]
+    },
+    {
+      name: 'Long field name with long value',
+      data: [
+        {
+          icon: 'star',
+          text:
+            'Long field name with long value Long field name with long value Long field name with long value'
+        }
+      ]
+    },
+    {
+      name: 'short name',
+      data: [
+        {
+          icon: 'star',
+          text: 'short value'
+        }
+      ]
+    },
+    {
+      name: 'short name',
+      data: [
+        {
+          icon: 'star',
+          text: 'middle size middle size'
+        }
+      ]
+    },
+    {
+      name: 'Extraction with No Data',
+      data: []
+    },
+    {
+      name: 'Next Century',
+      data: [
+        {
+          // classifications: {
+          //   database: 'positive',
+          //   type: 'type',
+          //   user: ''
+          // },
+          // confidence: 100,
           icon: 'link',
           id: 'ID1',
           link: 'https://www.nextcentury.com/',
-          provenances: [{
-            method: 'From Page Header',
-            text: 'Welcome to <etk>Next Century</etk>'
-          }],
+          provenances: [
+            {
+              method: 'From Page Header',
+              text: 'Welcome to <etk>Next Century</etk>'
+            }
+          ],
           styleClass: 'extraction-nextcentury',
           text: 'Home Page'
-        }, {
-          classifications: {
-            database: 'negative',
-            type: 'type',
-            user: ''
-          },
-          confidence: 33,
+        },
+        {
+          // classifications: {
+          //   database: 'negative',
+          //   type: 'type',
+          //   user: ''
+          // },
+          // confidence: 33,
           highlight: true,
           icon: 'search',
           id: 'ID2',
           link: 'https://github.com/DigElements',
-          provenances: [{
-            method: 'From Page Body',
-            text: 'The <etk>DigElements</etk> Library'
-          }],
+          provenances: [
+            {
+              method: 'From Page Body',
+              text: 'The <etk>DigElements</etk> Library'
+            }
+          ],
           styleClass: 'extraction-nextcentury',
           text: 'DigElements'
-        }]
-      }, {
-        name: 'Google',
-        data: [{
-          classifications: {
-            database: '',
-            type: 'type',
-            user: ''
-          },
-          confidence: 99,
+        }
+      ]
+    },
+    {
+      name: 'Google',
+      data: [
+        {
+          // classifications: {
+          //   database: '',
+          //   type: 'type',
+          //   user: ''
+          // },
+          // confidence: 99,
           icon: 'android',
           id: 'ID3',
           link: 'https://www.android.com/',
           provenances: [],
           styleClass: 'extraction-google',
-          text: 'Android',
-          width: 250
-        }, {
-          classifications: {},
-          confidence: 66,
-          icon: 'polymer',
-          link: 'https://www.polymer-project.org/',
-          provenances: [],
-          styleClass: 'extraction-google',
-          text: 'Polymer Project',
-          width: 250
-        }]
-      }];
+          text: 'Android'
+          // width: 250
+        }
+        // {
+        //   // classifications: {},
+        //   // confidence: 66,
+        //   icon: 'polymer',
+        //   link: 'https://www.polymer-project.org/',
+        //   provenances: [],
+        //   styleClass: 'extraction-google',
+        //   text: 'Polymer Project'
+        //   // width: 250
+        // }
+      ]
+    }
+  ];
 
-      demo.tagManager = {
-        addListener: function() {},
-        removeListener: function() {},
-        setExtractionTag: function() {}
-      };
+  demo.tagManager = {
+    addListener: function() {},
+    removeListener: function() {},
+    setExtractionTag: function() {}
+  };
 
-      demo.stringify = function(object) {
-        return JSON.stringify(object);
-      };
-    })(document);
-  </script>
+  demo.stringify = function(object) {
+    return JSON.stringify(object);
+  };
+})(document);
+</script>
 </body>
 </html>

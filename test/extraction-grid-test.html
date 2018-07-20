@@ -31,586 +31,828 @@ limitations under the License.
   </test-fixture>
 
   <script>
-    suite('extraction-grid tests', function() {
-      var element;
+  suite('extraction-grid tests', function() {
+  var element;
 
-      setup(function(done) {
-        element = fixture('extraction-grid-fixture');
-        element.extractions = [{
-          name: 'name1',
-          data: []
-        }, {
-          name: 'name2',
-          data: [{
+  setup(function(done) {
+    element = fixture('extraction-grid-fixture');
+    element.extractions = [
+      {
+        name: 'name1',
+        data: []
+      },
+      {
+        name: 'name2',
+        data: [
+          {
             text: 'text2'
-          }]
-        }, {
-          icon: 'iconA',
-          name: 'name3',
-          styleClass: 'styleClassA',
-          data: [{
+          }
+        ]
+      },
+      {
+        icon: 'iconA',
+        name: 'name3',
+        styleClass: 'styleClassA',
+        data: [
+          {
             text: 'text3'
-          }, {
+          },
+          {
             link: 'linkA',
             text: 'text4'
-          }]
-        }, {
-          icon: 'iconB',
-          name: 'name4',
-          styleClass: 'styleClassB',
-          data: [{
+          }
+        ]
+      },
+      {
+        icon: 'iconB',
+        name: 'name4',
+        styleClass: 'styleClassB',
+        data: [
+          {
             confidence: 100,
             link: 'linkB',
             text: 'text5'
-          }, {
+          },
+          {
             confidence: 50,
             link: 'linkC',
-            provenances: [{
-              method: 'method1',
-              text: 'text1'
-            }],
+            provenances: [
+              {
+                method: 'method1',
+                text: 'text1'
+              }
+            ],
             text: 'text6'
-          }]
-        }];
-        element.resultId = '1234';
-        element.resultType = 'document';
-        flush(done);
-      });
+          }
+        ]
+      }
+    ];
+    element.resultId = '1234';
+    element.resultType = 'document';
+    flush(done);
+  });
 
-      test('properties are set as expected', function() {
-        expect(element.dataProperty).to.equal('data');
-        expect(element.dataClassificationsProperty).to.equal('classifications');
-        expect(element.dataConfidenceProperty).to.equal('confidence');
-        expect(element.dataIconProperty).to.equal('icon');
-        expect(element.dataIdProperty).to.equal('id');
-        expect(element.dataLinkProperty).to.equal('link');
-        expect(element.dataProvenancesProperty).to.equal('provenances');
-        expect(element.dataStyleClassProperty).to.equal('styleClass');
-        expect(element.dataTextProperty).to.equal('text');
-        expect(element.dataTypeProperty).to.equal('type');
-        expect(element.dataWidthProperty).to.equal('width');
-        expect(element.hideConfidences).to.be.false;
-        expect(element.iconProperty).to.equal('icon');
-        expect(element.nameProperty).to.equal('name');
-        expect(element.resultId).to.equal('1234');
-        expect(element.resultType).to.equal('document');
-        expect(element.showProvenances).to.not.exist;
-        expect(element.styleClassProperty).to.equal('styleClass');
-        expect(element.tagManager).to.not.exist;
-        expect(element.target).to.equal('_self');
-        expect(element.widthProperty).to.equal('width');
-      });
+  test('properties are set as expected', function() {
+    expect(element).to.equal('data');
+    expect(element.dataProperty).to.equal('data');
+    expect(element.dataClassificationsProperty).to.equal('classifications');
+    expect(element.dataConfidenceProperty).to.equal('confidence');
+    expect(element.dataIconProperty).to.equal('icon');
+    expect(element.dataIdProperty).to.equal('id');
+    expect(element.dataLinkProperty).to.equal('link');
+    expect(element.dataProvenancesProperty).to.equal('provenances');
+    expect(element.dataStyleClassProperty).to.equal('styleClass');
+    expect(element.dataTextProperty).to.equal('text');
+    expect(element.dataTypeProperty).to.equal('type');
+    expect(element.dataWidthProperty).to.equal('width');
+    expect(element.hideConfidences).to.be.false;
+    expect(element.iconProperty).to.equal('icon');
+    expect(element.nameProperty).to.equal('name');
+    expect(element.resultId).to.equal('1234');
+    expect(element.resultType).to.equal('document');
+    expect(element.showProvenances).to.not.exist;
+    expect(element.styleClassProperty).to.equal('styleClass');
+    expect(element.tagManager).to.not.exist;
+    expect(element.target).to.equal('_self');
+    expect(element.widthProperty).to.equal('width');
+  });
 
-      test('extractions are set as expected', function() {
-        expect(element.extractions).to.deep.equal([{
-          name: 'name1',
-          data: []
-        }, {
-          name: 'name2',
-          data: [{
+  test('extractions are set as expected', function() {
+    expect(element.extractions).to.deep.equal([
+      {
+        name: 'name1',
+        data: []
+      },
+      {
+        name: 'name2',
+        data: [
+          {
             text: 'text2'
-          }]
-        }, {
-          icon: 'iconA',
-          name: 'name3',
-          styleClass: 'styleClassA',
-          data: [{
+          }
+        ]
+      },
+      {
+        icon: 'iconA',
+        name: 'name3',
+        styleClass: 'styleClassA',
+        data: [
+          {
             text: 'text3'
-          }, {
+          },
+          {
             link: 'linkA',
             text: 'text4'
-          }]
-        }, {
-          icon: 'iconB',
-          name: 'name4',
-          styleClass: 'styleClassB',
-          data: [{
+          }
+        ]
+      },
+      {
+        icon: 'iconB',
+        name: 'name4',
+        styleClass: 'styleClassB',
+        data: [
+          {
             confidence: 100,
             link: 'linkB',
             text: 'text5'
-          }, {
+          },
+          {
             confidence: 50,
             link: 'linkC',
-            provenances: [{
-              method: 'method1',
-              text: 'text1'
-            }],
+            provenances: [
+              {
+                method: 'method1',
+                text: 'text1'
+              }
+            ],
             text: 'text6'
-          }]
-        }]);
-      });
+          }
+        ]
+      }
+    ]);
+  });
 
-      test('does show extraction-list elements', function() {
-        var lists = Polymer.dom(element.root).querySelectorAll('.extraction-list');
-        expect(lists).to.exist;
-        expect(lists.length).to.equal(3);
-      });
+  test('does show extraction-list elements', function() {
+    var lists = Polymer.dom(element.root).querySelectorAll('.extraction-list');
+    expect(lists).to.exist;
+    expect(lists.length).to.equal(3);
+  });
 
-      test('does show extraction-name elements', function() {
-        var names = Polymer.dom(element.root).querySelectorAll('.extraction-name icon-label');
-        expect(names).to.exist;
-        expect(names.length).to.equal(3);
+  test('does show extraction-name elements', function() {
+    var names = Polymer.dom(element.root).querySelectorAll(
+      '.extraction-name icon-label'
+    );
+    expect(names).to.exist;
+    expect(names.length).to.equal(3);
 
-        expect(names[0].icon).to.not.exist;
-        expect(names[0].iconStyleClass).to.not.exist;
-        expect(names[0].link).to.equal('');
-        expect(names[0].target).to.equal('_self');
-        expect(names[0].text).to.equal('name2');
-        expect(names[0].textTitleTooltip).to.equal('name2');
-        expect(names[0].width).to.not.exist;
-        expect(names[0].getAttribute('tappable')).to.not.exist;
+    expect(names[0].icon).to.not.exist;
+    expect(names[0].iconStyleClass).to.not.exist;
+    expect(names[0].link).to.equal('');
+    expect(names[0].target).to.equal('_self');
+    expect(names[0].text).to.equal('name2');
+    expect(names[0].textTitleTooltip).to.equal('name2');
+    expect(names[0].width).to.not.exist;
+    expect(names[0].getAttribute('tappable')).to.not.exist;
 
-        expect(names[1].icon).to.equal('iconA');
-        expect(names[1].iconStyleClass).to.equal('styleClassA');
-        expect(names[1].link).to.equal('');
-        expect(names[1].target).to.equal('_self');
-        expect(names[1].text).to.equal('name3');
-        expect(names[1].textTitleTooltip).to.equal('name3');
-        expect(names[1].width).to.not.exist;
-        expect(names[1].getAttribute('tappable')).to.not.exist;
+    expect(names[1].icon).to.equal('iconA');
+    expect(names[1].iconStyleClass).to.equal('styleClassA');
+    expect(names[1].link).to.equal('');
+    expect(names[1].target).to.equal('_self');
+    expect(names[1].text).to.equal('name3');
+    expect(names[1].textTitleTooltip).to.equal('name3');
+    expect(names[1].width).to.not.exist;
+    expect(names[1].getAttribute('tappable')).to.not.exist;
 
-        expect(names[2].icon).to.equal('iconB');
-        expect(names[2].iconStyleClass).to.equal('styleClassB');
-        expect(names[2].link).to.equal('');
-        expect(names[2].target).to.equal('_self');
-        expect(names[2].text).to.equal('name4');
-        expect(names[2].textTitleTooltip).to.equal('name4');
-        expect(names[2].width).to.not.exist;
-        expect(names[2].getAttribute('tappable')).to.not.exist;
-      });
+    expect(names[2].icon).to.equal('iconB');
+    expect(names[2].iconStyleClass).to.equal('styleClassB');
+    expect(names[2].link).to.equal('');
+    expect(names[2].target).to.equal('_self');
+    expect(names[2].text).to.equal('name4');
+    expect(names[2].textTitleTooltip).to.equal('name4');
+    expect(names[2].width).to.not.exist;
+    expect(names[2].getAttribute('tappable')).to.not.exist;
+  });
 
-      test('does show extraction-item elements', function() {
-        var items = Polymer.dom(element.root).querySelectorAll('.extraction-item icon-label');
-        expect(items).to.exist;
-        expect(items.length).to.equal(5);
+  test('does show extraction-item elements', function() {
+    var items = Polymer.dom(element.root).querySelectorAll(
+      '.extraction-item icon-label'
+    );
+    expect(items).to.exist;
+    expect(items.length).to.equal(5);
 
-        expect(items[0].icon).to.equal('');
-        expect(items[0].iconStyleClass).to.equal('');
-        expect(items[0].link).to.not.exist;
-        expect(items[0].target).to.equal('_self');
-        expect(items[0].text).to.equal('text2');
-        expect(items[0].textTitleTooltip).to.equal('text2');
-        expect(items[0].width).to.not.exist;
-        expect(items[0].getAttribute('tappable')).to.exist;
+    expect(items[0].icon).to.equal('');
+    expect(items[0].iconStyleClass).to.equal('');
+    expect(items[0].link).to.not.exist;
+    expect(items[0].target).to.equal('_self');
+    expect(items[0].text).to.equal('text2');
+    expect(items[0].textTitleTooltip).to.equal('text2');
+    expect(items[0].width).to.not.exist;
+    expect(items[0].getAttribute('tappable')).to.exist;
 
-        expect(items[1].icon).to.equal('');
-        expect(items[1].iconStyleClass).to.equal('');
-        expect(items[1].link).to.not.exist;
-        expect(items[1].target).to.equal('_self');
-        expect(items[1].text).to.equal('text3');
-        expect(items[1].textTitleTooltip).to.equal('text3');
-        expect(items[1].width).to.not.exist;
-        expect(items[1].getAttribute('tappable')).to.exist;
+    expect(items[1].icon).to.equal('');
+    expect(items[1].iconStyleClass).to.equal('');
+    expect(items[1].link).to.not.exist;
+    expect(items[1].target).to.equal('_self');
+    expect(items[1].text).to.equal('text3');
+    expect(items[1].textTitleTooltip).to.equal('text3');
+    expect(items[1].width).to.not.exist;
+    expect(items[1].getAttribute('tappable')).to.exist;
 
-        expect(items[2].icon).to.equal('');
-        expect(items[2].iconStyleClass).to.equal('');
-        expect(items[2].link).to.equal('linkA');
-        expect(items[2].target).to.equal('_self');
-        expect(items[2].text).to.equal('text4');
-        expect(items[2].textTitleTooltip).to.equal('Click to Open text4');
-        expect(items[2].width).to.not.exist;
-        expect(items[2].getAttribute('tappable')).to.exist;
+    expect(items[2].icon).to.equal('');
+    expect(items[2].iconStyleClass).to.equal('');
+    expect(items[2].link).to.equal('linkA');
+    expect(items[2].target).to.equal('_self');
+    expect(items[2].text).to.equal('text4');
+    expect(items[2].textTitleTooltip).to.equal('Click to Open text4');
+    expect(items[2].width).to.not.exist;
+    expect(items[2].getAttribute('tappable')).to.exist;
 
-        expect(items[3].icon).to.equal('');
-        expect(items[3].iconStyleClass).to.equal('');
-        expect(items[3].link).to.equal('linkB');
-        expect(items[3].target).to.equal('_self');
-        expect(items[3].text).to.equal('text5');
-        expect(items[3].textTitleTooltip).to.equal('Click to Open text5');
-        expect(items[3].width).to.not.exist;
-        expect(items[3].getAttribute('tappable')).to.exist;
+    expect(items[3].icon).to.equal('');
+    expect(items[3].iconStyleClass).to.equal('');
+    expect(items[3].link).to.equal('linkB');
+    expect(items[3].target).to.equal('_self');
+    expect(items[3].text).to.equal('text5');
+    expect(items[3].textTitleTooltip).to.equal('Click to Open text5');
+    expect(items[3].width).to.not.exist;
+    expect(items[3].getAttribute('tappable')).to.exist;
 
-        expect(items[4].icon).to.equal('');
-        expect(items[4].iconStyleClass).to.equal('');
-        expect(items[4].link).to.equal('linkC');
-        expect(items[4].target).to.equal('_self');
-        expect(items[4].text).to.equal('text6');
-        expect(items[4].textTitleTooltip).to.equal('Click to Open text6');
-        expect(items[4].width).to.not.exist;
-        expect(items[4].getAttribute('tappable')).to.exist;
-      });
+    expect(items[4].icon).to.equal('');
+    expect(items[4].iconStyleClass).to.equal('');
+    expect(items[4].link).to.equal('linkC');
+    expect(items[4].target).to.equal('_self');
+    expect(items[4].text).to.equal('text6');
+    expect(items[4].textTitleTooltip).to.equal('Click to Open text6');
+    expect(items[4].width).to.not.exist;
+    expect(items[4].getAttribute('tappable')).to.exist;
+  });
 
-      test('does show confidence-marker elements', function() {
-        var markers = Polymer.dom(element.root).querySelectorAll('confidence-marker');
-        expect(markers).to.exist;
-        expect(markers.length).to.equal(5);
+  test('does show confidence-marker elements', function() {
+    var markers = Polymer.dom(element.root).querySelectorAll(
+      'confidence-marker'
+    );
+    expect(markers).to.exist;
+    expect(markers.length).to.equal(5);
 
-        expect(markers[0].confidence).to.not.exist;
-        expect(markers[1].confidence).to.not.exist;
-        expect(markers[2].confidence).to.not.exist;
-        expect(markers[3].confidence).to.equal(100);
-        expect(markers[4].confidence).to.equal(50);
-      });
+    expect(markers[0].confidence).to.not.exist;
+    expect(markers[1].confidence).to.not.exist;
+    expect(markers[2].confidence).to.not.exist;
+    expect(markers[3].confidence).to.equal(100);
+    expect(markers[4].confidence).to.equal(50);
+  });
 
-      test('does not show tag-extraction-buttons elements if tagManager is undefined', function() {
-        expect(element.$$('tag-extraction-buttons')).to.not.exist;
-      });
+  test('does not show tag-extraction-buttons elements if tagManager is undefined', function() {
+    expect(element.$$('tag-extraction-buttons')).to.not.exist;
+  });
 
-      test('_getHighlightableLabelStyleClass does return as expected', function() {
-        expect(element._getHighlightableLabelStyleClass).to.be.a('Function');
-        expect(element._getHighlightableLabelStyleClass({}, 'highlight')).to.equal('');
-        expect(element._getHighlightableLabelStyleClass({
+  test('_getHighlightableLabelStyleClass does return as expected', function() {
+    expect(element._getHighlightableLabelStyleClass).to.be.a('Function');
+    expect(element._getHighlightableLabelStyleClass({}, 'highlight')).to.equal(
+      ''
+    );
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           nothighlight: true
-        }, 'highlight')).to.equal('');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'highlight'
+      )
+    ).to.equal('');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: true
-        }, 'nothighlight')).to.equal('');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'nothighlight'
+      )
+    ).to.equal('');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: false
-        }, 'highlight')).to.equal('');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'highlight'
+      )
+    ).to.equal('');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: 0
-        }, 'highlight')).to.equal('');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'highlight'
+      )
+    ).to.equal('');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: true
-        }, 'highlight')).to.equal('highlight');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'highlight'
+      )
+    ).to.equal('highlight');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: 1
-        }, 'highlight')).to.equal('highlight');
-        expect(element._getHighlightableLabelStyleClass({
+        },
+        'highlight'
+      )
+    ).to.equal('highlight');
+    expect(
+      element._getHighlightableLabelStyleClass(
+        {
           highlight: 'string'
-        }, 'highlight')).to.equal('highlight');
-      });
+        },
+        'highlight'
+      )
+    ).to.equal('highlight');
+  });
 
-      test('_getLength does return as expected', function() {
-        expect(element._getLength).to.be.a('Function');
-        expect(element._getLength({}, 'list')).to.not.exist;
-        expect(element._getLength({
+  test('_getLength does return as expected', function() {
+    expect(element._getLength).to.be.a('Function');
+    expect(element._getLength({}, 'list')).to.not.exist;
+    expect(
+      element._getLength(
+        {
           list: []
-        }, 'notlist')).to.not.exist;
-        expect(element._getLength({
+        },
+        'notlist'
+      )
+    ).to.not.exist;
+    expect(
+      element._getLength(
+        {
           notlist: []
-        }, 'list')).to.not.exist;
-        expect(element._getLength({
+        },
+        'list'
+      )
+    ).to.not.exist;
+    expect(
+      element._getLength(
+        {
           list: []
-        }, 'list')).to.equal(0);
-        expect(element._getLength({
+        },
+        'list'
+      )
+    ).to.equal(0);
+    expect(
+      element._getLength(
+        {
           list: [1]
-        }, 'list')).to.equal(1);
-        expect(element._getLength({
+        },
+        'list'
+      )
+    ).to.equal(1);
+    expect(
+      element._getLength(
+        {
           list: [1, 2]
-        }, 'list')).to.equal(2);
-      });
+        },
+        'list'
+      )
+    ).to.equal(2);
+  });
 
-      test('_getList does return as expected', function() {
-        expect(element._getList).to.be.a('Function');
-        expect(element._getList({}, 'list')).to.deep.equal([]);
-        expect(element._getList({
+  test('_getList does return as expected', function() {
+    expect(element._getList).to.be.a('Function');
+    expect(element._getList({}, 'list')).to.deep.equal([]);
+    expect(
+      element._getList(
+        {
           list: []
-        }, 'notlist')).to.deep.equal([]);
-        expect(element._getList({
+        },
+        'notlist'
+      )
+    ).to.deep.equal([]);
+    expect(
+      element._getList(
+        {
           notlist: []
-        }, 'list')).to.deep.equal([]);
-        expect(element._getList({
+        },
+        'list'
+      )
+    ).to.deep.equal([]);
+    expect(
+      element._getList(
+        {
           list: []
-        }, 'list')).to.deep.equal([]);
-        expect(element._getList({
+        },
+        'list'
+      )
+    ).to.deep.equal([]);
+    expect(
+      element._getList(
+        {
           list: [1]
-        }, 'list')).to.deep.equal([1]);
-        expect(element._getList({
+        },
+        'list'
+      )
+    ).to.deep.equal([1]);
+    expect(
+      element._getList(
+        {
           list: [1, 2]
-        }, 'list')).to.deep.equal([1, 2]);
-      });
+        },
+        'list'
+      )
+    ).to.deep.equal([1, 2]);
+  });
 
-      test('_getProperty does return as expected', function() {
-        expect(element._getProperty).to.be.a('Function');
-        expect(element._getProperty({}, 'property')).to.not.exist;
-        expect(element._getProperty({
+  test('_getProperty does return as expected', function() {
+    expect(element._getProperty).to.be.a('Function');
+    expect(element._getProperty({}, 'property')).to.not.exist;
+    expect(
+      element._getProperty(
+        {
           property: 'text'
-        }, 'notproperty')).to.not.exist;
-        expect(element._getProperty({
+        },
+        'notproperty'
+      )
+    ).to.not.exist;
+    expect(
+      element._getProperty(
+        {
           notproperty: 'text'
-        }, 'property')).to.not.exist;
-        expect(element._getProperty({
+        },
+        'property'
+      )
+    ).to.not.exist;
+    expect(
+      element._getProperty(
+        {
           property: 'text'
-        }, 'property')).to.equal('text');
-        expect(element._getProperty({
+        },
+        'property'
+      )
+    ).to.equal('text');
+    expect(
+      element._getProperty(
+        {
           property: 10
-        }, 'property')).to.equal(10);
-        expect(element._getProperty({
+        },
+        'property'
+      )
+    ).to.equal(10);
+    expect(
+      element._getProperty(
+        {
           property: true
-        }, 'property')).to.be.true;
-        expect(element._getProperty({
+        },
+        'property'
+      )
+    ).to.be.true;
+    expect(
+      element._getProperty(
+        {
           property: [1, 2, 3, 4, 5]
-        }, 'property')).to.deep.equal([1, 2, 3, 4, 5]);
-        expect(element._getProperty({
+        },
+        'property'
+      )
+    ).to.deep.equal([1, 2, 3, 4, 5]);
+    expect(
+      element._getProperty(
+        {
           property: {
             key: 'value'
           }
-        }, 'property')).to.deep.equal({
-          key: 'value'
-        });
-      });
+        },
+        'property'
+      )
+    ).to.deep.equal({
+      key: 'value'
+    });
+  });
 
-      test('_getTextTitleTooltip does return as expected', function() {
-        expect(element._getTextTitleTooltip).to.be.a('Function');
-        expect(element._getTextTitleTooltip({}, '', '')).to.not.exist;
-        expect(element._getTextTitleTooltip({}, 'link', 'text')).to.not.exist;
-        expect(element._getTextTitleTooltip({
+  test('_getTextTitleTooltip does return as expected', function() {
+    expect(element._getTextTitleTooltip).to.be.a('Function');
+    expect(element._getTextTitleTooltip({}, '', '')).to.not.exist;
+    expect(element._getTextTitleTooltip({}, 'link', 'text')).to.not.exist;
+    expect(
+      element._getTextTitleTooltip(
+        {
           notext: 'My Text'
-        }, 'link', 'text')).to.not.exist;
-        expect(element._getTextTitleTooltip({
+        },
+        'link',
+        'text'
+      )
+    ).to.not.exist;
+    expect(
+      element._getTextTitleTooltip(
+        {
           text: 'My Text'
-        }, 'link', 'notext')).to.not.exist;
-        expect(element._getTextTitleTooltip({
+        },
+        'link',
+        'notext'
+      )
+    ).to.not.exist;
+    expect(
+      element._getTextTitleTooltip(
+        {
           text: 'My Text'
-        }, 'link', 'text')).to.equal('My Text');
-        expect(element._getTextTitleTooltip({
+        },
+        'link',
+        'text'
+      )
+    ).to.equal('My Text');
+    expect(
+      element._getTextTitleTooltip(
+        {
           nolink: 'My Link',
           text: 'My Text'
-        }, 'link', 'text')).to.equal('My Text');
-        expect(element._getTextTitleTooltip({
+        },
+        'link',
+        'text'
+      )
+    ).to.equal('My Text');
+    expect(
+      element._getTextTitleTooltip(
+        {
           link: 'My Link',
           text: 'My Text'
-        }, 'nolink', 'text')).to.equal('My Text');
-        expect(element._getTextTitleTooltip({
+        },
+        'nolink',
+        'text'
+      )
+    ).to.equal('My Text');
+    expect(
+      element._getTextTitleTooltip(
+        {
           link: 'My Link',
           text: 'My Text'
-        }, 'link', 'text')).to.equal('Click to Open My Text');
-      });
+        },
+        'link',
+        'text'
+      )
+    ).to.equal('Click to Open My Text');
+  });
 
-      test('_handleTapEvent does call event.stopPropagation if event.model.extraction[dataLinkProperty] is defined', function() {
-        var called = false;
-        var testEvent = {
-          model: {
-            extraction: {}
-          },
-          stopPropagation: function() {
-            called = true;
-          }
-        };
+  test('_handleTapEvent does call event.stopPropagation if event.model.extraction[dataLinkProperty] is defined', function() {
+    var called = false;
+    var testEvent = {
+      model: {
+        extraction: {}
+      },
+      stopPropagation: function() {
+        called = true;
+      }
+    };
 
-        element._handleTapEvent(testEvent);
-        expect(called).to.be.false;
+    element._handleTapEvent(testEvent);
+    expect(called).to.be.false;
 
-        testEvent.model.extraction.link = 'link';
-        element._handleTapEvent(testEvent);
-        expect(called).to.be.true;
-        called = false;
+    testEvent.model.extraction.link = 'link';
+    element._handleTapEvent(testEvent);
+    expect(called).to.be.true;
+    called = false;
 
-        testEvent.model.extraction.testLink = 'link';
-        element.dataLinkProperty = 'testLink';
-        element._handleTapEvent(testEvent);
-        expect(called).to.be.true;
-      });
+    testEvent.model.extraction.testLink = 'link';
+    element.dataLinkProperty = 'testLink';
+    element._handleTapEvent(testEvent);
+    expect(called).to.be.true;
+  });
 
-      test('_updateShowProvenances does set showProvenances using given extraction', function() {
-        var called = false;
-        element._updateShowProvenances({
-          detail: {
-            value: true
-          },
-          model: {
-            extraction: {
-              confidence: 100,
-              text: 'extraction1',
-              provenances: [{
-                method: 'method1',
-                text: 'text1'
-              }]
-            }
-          },
-          stopPropagation: function() {
-            called = true;
-          }
-        });
-
-        expect(called).to.be.true;
-        expect(element.showProvenances).to.deep.equal([{
+  test('_updateShowProvenances does set showProvenances using given extraction', function() {
+    var called = false;
+    element._updateShowProvenances({
+      detail: {
+        value: true
+      },
+      model: {
+        extraction: {
           confidence: 100,
-          documentId: '1234',
-          extraction: 'extraction1',
-          provenances: [{
-            method: 'method1',
-            text: 'text1'
-          }]
-        }]);
-      });
-
-      test('_updateShowProvenances does not set showProvenances using given extraction if selected (event.detail.value) is false', function() {
-        var called = false;
-        element._updateShowProvenances({
-          detail: {
-            value: false
-          },
-          model: {
-            extraction: {
-              confidence: 100,
-              text: 'extraction1',
-              provenances: [{
-                method: 'method1',
-                text: 'text1'
-              }]
+          text: 'extraction1',
+          provenances: [
+            {
+              method: 'method1',
+              text: 'text1'
             }
-          },
-          stopPropagation: function() {
-            called = true;
-          }
-        });
-
-        expect(called).to.be.false;
-        expect(element.showProvenances).to.not.exist;
-      });
-
-      test('_updateShowProvenances does set showProvenances using given list of extractions', function() {
-        var called = false;
-        element._updateShowProvenances({
-          detail: {
-            value: false
-          },
-          model: {
-            item: {
-              data: [{
-                confidence: 100,
-                text: 'extraction1',
-                provenances: [{
-                  method: 'method1',
-                  text: 'text1'
-                }]
-              }, {
-                confidence: 50,
-                text: 'extraction2',
-                provenances: [{
-                  method: 'method2',
-                  text: 'text2'
-                }]
-              }]
-            }
-          },
-          stopPropagation: function() {
-            called = true;
-          }
-        });
-
-        expect(called).to.be.true;
-        expect(element.showProvenances).to.deep.equal([{
-          confidence: 100,
-          documentId: '1234',
-          extraction: 'extraction1',
-          provenances: [{
-            method: 'method1',
-            text: 'text1'
-          }]
-        }, {
-          confidence: 50,
-          documentId: '1234',
-          extraction: 'extraction2',
-          provenances: [{
-            method: 'method2',
-            text: 'text2'
-          }]
-        }]);
-      });
-
-      test('_updateShowProvenances does work with custom properties', function() {
-        element.dataProperty = 'myData';
-        element.dataConfidenceProperty = 'myConf';
-        element.dataProvenancesProperty = 'myProv';
-        element.dataTextProperty = 'myText';
-
-        var called = false;
-        element._updateShowProvenances({
-          detail: {
-            value: false
-          },
-          model: {
-            item: {
-              myData: [{
-                myConf: 100,
-                myText: 'extraction1',
-                myProv: [{
-                  method: 'method1',
-                  text: 'text1'
-                }]
-              }, {
-                myConf: 50,
-                myText: 'extraction2',
-                myProv: [{
-                  method: 'method2',
-                  text: 'text2'
-                }]
-              }]
-            }
-          },
-          stopPropagation: function() {
-            called = true;
-          }
-        });
-
-        expect(called).to.be.true;
-        expect(element.showProvenances).to.deep.equal([{
-          confidence: 100,
-          documentId: '1234',
-          extraction: 'extraction1',
-          provenances: [{
-            method: 'method1',
-            text: 'text1'
-          }]
-        }, {
-          confidence: 50,
-          documentId: '1234',
-          extraction: 'extraction2',
-          provenances: [{
-            method: 'method2',
-            text: 'text2'
-          }]
-        }]);
-      });
-
-      test('showProvenances is set if a confidence-marker is selected', function() {
-        expect(element.showProvenances).to.not.exist;
-
-        var markers = Polymer.dom(element.root).querySelectorAll('confidence-marker');
-        markers[4].selected = true;
-
-        expect(element.showProvenances).to.deep.equal([{
-          confidence: 50,
-          documentId: '1234',
-          extraction: 'text6',
-          provenances: [{
-            method: 'method1',
-            text: 'text1'
-          }]
-        }]);
-      });
+          ]
+        }
+      },
+      stopPropagation: function() {
+        called = true;
+      }
     });
 
-    suite('extraction-grid tests with no extractions', function() {
-      var element;
+    expect(called).to.be.true;
+    expect(element.showProvenances).to.deep.equal([
+      {
+        confidence: 100,
+        documentId: '1234',
+        extraction: 'extraction1',
+        provenances: [
+          {
+            method: 'method1',
+            text: 'text1'
+          }
+        ]
+      }
+    ]);
+  });
 
-      setup(function(done) {
-        element = fixture('extraction-grid-fixture');
-        flush(done);
-      });
-
-      test('extractions are set as expected', function() {
-        expect(element.extractions).to.deep.equal([]);
-      });
-
-      test('does not show extraction elements if extractions is undefined', function() {
-        expect(element.$$('.extraction')).to.not.exist;
-        expect(element.$$('.extraction-name')).to.not.exist;
-        expect(element.$$('.extraction-item')).to.not.exist;
-        expect(element.$$('confidence-marker')).to.not.exist;
-        expect(element.$$('tag-extraction-buttons')).to.not.exist;
-      });
+  test('_updateShowProvenances does not set showProvenances using given extraction if selected (event.detail.value) is false', function() {
+    var called = false;
+    element._updateShowProvenances({
+      detail: {
+        value: false
+      },
+      model: {
+        extraction: {
+          confidence: 100,
+          text: 'extraction1',
+          provenances: [
+            {
+              method: 'method1',
+              text: 'text1'
+            }
+          ]
+        }
+      },
+      stopPropagation: function() {
+        called = true;
+      }
     });
 
-    suite('extraction-grid tests with tagManager', function() {
-      var element;
+    expect(called).to.be.false;
+    expect(element.showProvenances).to.not.exist;
+  });
 
-      setup(function(done) {
-        element = fixture('extraction-grid-fixture');
-        element.extractions = [{
-          name: 'name1',
-          data: [{
+  test('_updateShowProvenances does set showProvenances using given list of extractions', function() {
+    var called = false;
+    element._updateShowProvenances({
+      detail: {
+        value: false
+      },
+      model: {
+        item: {
+          data: [
+            {
+              confidence: 100,
+              text: 'extraction1',
+              provenances: [
+                {
+                  method: 'method1',
+                  text: 'text1'
+                }
+              ]
+            },
+            {
+              confidence: 50,
+              text: 'extraction2',
+              provenances: [
+                {
+                  method: 'method2',
+                  text: 'text2'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      stopPropagation: function() {
+        called = true;
+      }
+    });
+
+    expect(called).to.be.true;
+    expect(element.showProvenances).to.deep.equal([
+      {
+        confidence: 100,
+        documentId: '1234',
+        extraction: 'extraction1',
+        provenances: [
+          {
+            method: 'method1',
+            text: 'text1'
+          }
+        ]
+      },
+      {
+        confidence: 50,
+        documentId: '1234',
+        extraction: 'extraction2',
+        provenances: [
+          {
+            method: 'method2',
+            text: 'text2'
+          }
+        ]
+      }
+    ]);
+  });
+
+  test('_updateShowProvenances does work with custom properties', function() {
+    element.dataProperty = 'myData';
+    element.dataConfidenceProperty = 'myConf';
+    element.dataProvenancesProperty = 'myProv';
+    element.dataTextProperty = 'myText';
+
+    var called = false;
+    element._updateShowProvenances({
+      detail: {
+        value: false
+      },
+      model: {
+        item: {
+          myData: [
+            {
+              myConf: 100,
+              myText: 'extraction1',
+              myProv: [
+                {
+                  method: 'method1',
+                  text: 'text1'
+                }
+              ]
+            },
+            {
+              myConf: 50,
+              myText: 'extraction2',
+              myProv: [
+                {
+                  method: 'method2',
+                  text: 'text2'
+                }
+              ]
+            }
+          ]
+        }
+      },
+      stopPropagation: function() {
+        called = true;
+      }
+    });
+
+    expect(called).to.be.true;
+    expect(element.showProvenances).to.deep.equal([
+      {
+        confidence: 100,
+        documentId: '1234',
+        extraction: 'extraction1',
+        provenances: [
+          {
+            method: 'method1',
+            text: 'text1'
+          }
+        ]
+      },
+      {
+        confidence: 50,
+        documentId: '1234',
+        extraction: 'extraction2',
+        provenances: [
+          {
+            method: 'method2',
+            text: 'text2'
+          }
+        ]
+      }
+    ]);
+  });
+
+  test('showProvenances is set if a confidence-marker is selected', function() {
+    expect(element.showProvenances).to.not.exist;
+
+    var markers = Polymer.dom(element.root).querySelectorAll(
+      'confidence-marker'
+    );
+    markers[4].selected = true;
+
+    expect(element.showProvenances).to.deep.equal([
+      {
+        confidence: 50,
+        documentId: '1234',
+        extraction: 'text6',
+        provenances: [
+          {
+            method: 'method1',
+            text: 'text1'
+          }
+        ]
+      }
+    ]);
+  });
+});
+
+suite('extraction-grid tests with no extractions', function() {
+  var element;
+
+  setup(function(done) {
+    element = fixture('extraction-grid-fixture');
+    flush(done);
+  });
+
+  test('extractions are set as expected', function() {
+    expect(element.extractions).to.deep.equal([]);
+  });
+
+  test('does not show extraction elements if extractions is undefined', function() {
+    expect(element.$$('.extraction')).to.not.exist;
+    expect(element.$$('.extraction-name')).to.not.exist;
+    expect(element.$$('.extraction-item')).to.not.exist;
+    expect(element.$$('confidence-marker')).to.not.exist;
+    expect(element.$$('tag-extraction-buttons')).to.not.exist;
+  });
+});
+
+suite('extraction-grid tests with tagManager', function() {
+  var element;
+
+  setup(function(done) {
+    element = fixture('extraction-grid-fixture');
+    element.extractions = [
+      {
+        name: 'name1',
+        data: [
+          {
             id: 'id1',
             text: 'text1',
             type: 'type1'
-          }]
-        }, {
-          name: 'name2',
-          data: [{
+          }
+        ]
+      },
+      {
+        name: 'name2',
+        data: [
+          {
             classifications: {
               database: 'negative',
               type: 'type2',
@@ -619,29 +861,36 @@ limitations under the License.
             id: 'id2',
             text: 'text2',
             type: 'type2'
-          }]
-        }];
-        element.resultId = '1234';
-        element.resultType = 'document';
-        element.tagManager = {
-          addListener: function() {},
-          removeListener: function() {},
-          setExtractionTag: function() {}
-        };
-        flush(done);
-      });
+          }
+        ]
+      }
+    ];
+    element.resultId = '1234';
+    element.resultType = 'document';
+    element.tagManager = {
+      addListener: function() {},
+      removeListener: function() {},
+      setExtractionTag: function() {}
+    };
+    flush(done);
+  });
 
-      test('extractions are set as expected', function() {
-        expect(element.extractions).to.deep.equal([{
-          name: 'name1',
-          data: [{
+  test('extractions are set as expected', function() {
+    expect(element.extractions).to.deep.equal([
+      {
+        name: 'name1',
+        data: [
+          {
             id: 'id1',
             text: 'text1',
             type: 'type1'
-          }]
-        }, {
-          name: 'name2',
-          data: [{
+          }
+        ]
+      },
+      {
+        name: 'name2',
+        data: [
+          {
             classifications: {
               database: 'negative',
               type: 'type2',
@@ -650,32 +899,36 @@ limitations under the License.
             id: 'id2',
             text: 'text2',
             type: 'type2'
-          }]
-        }]);
-      });
+          }
+        ]
+      }
+    ]);
+  });
 
-      test('does show tag-extraction-buttons elements', function() {
-        var buttons = Polymer.dom(element.root).querySelectorAll('tag-extraction-buttons');
-        expect(buttons).to.exist;
-        expect(buttons.length).to.equal(2);
-        expect(buttons[0].classification).to.not.exist;
-        expect(buttons[0].entityId).to.equal('1234');
-        expect(buttons[0].entityType).to.equal('document');
-        expect(buttons[0].extractionField).to.equal('type1');
-        expect(buttons[0].extractionKey).to.equal('id1');
-        expect(buttons[0].tagManager).to.deep.equal(element.tagManager);
-        expect(buttons[1].classification).to.deep.equal({
-          database: 'negative',
-          type: 'type2',
-          user: 'positive'
-        });
-        expect(buttons[1].entityId).to.equal('1234');
-        expect(buttons[1].entityType).to.equal('document');
-        expect(buttons[1].extractionField).to.equal('type2');
-        expect(buttons[1].extractionKey).to.equal('id2');
-        expect(buttons[1].tagManager).to.deep.equal(element.tagManager);
-      });
+  test('does show tag-extraction-buttons elements', function() {
+    var buttons = Polymer.dom(element.root).querySelectorAll(
+      'tag-extraction-buttons'
+    );
+    expect(buttons).to.exist;
+    expect(buttons.length).to.equal(2);
+    expect(buttons[0].classification).to.not.exist;
+    expect(buttons[0].entityId).to.equal('1234');
+    expect(buttons[0].entityType).to.equal('document');
+    expect(buttons[0].extractionField).to.equal('type1');
+    expect(buttons[0].extractionKey).to.equal('id1');
+    expect(buttons[0].tagManager).to.deep.equal(element.tagManager);
+    expect(buttons[1].classification).to.deep.equal({
+      database: 'negative',
+      type: 'type2',
+      user: 'positive'
     });
-  </script>
+    expect(buttons[1].entityId).to.equal('1234');
+    expect(buttons[1].entityType).to.equal('document');
+    expect(buttons[1].extractionField).to.equal('type2');
+    expect(buttons[1].extractionKey).to.equal('id2');
+    expect(buttons[1].tagManager).to.deep.equal(element.tagManager);
+  });
+});
+</script>
 </body>
 </html>

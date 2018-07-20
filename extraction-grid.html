@@ -88,7 +88,7 @@ Custom property                            | Description                        
       .extraction-list {
         margin: 10px 10px 0 0;
         padding: 5px;
-        width: 50%;
+        width: auto;
       }
 
       .extraction-name icon-label {
@@ -154,25 +154,25 @@ Custom property                            | Description                        
 
       @media all and (min-width: 1001px) and (max-width: 1250px) {
         .extraction-list {
-          width: 33.3%;
+          width: auto;
         }
       }
 
       @media all and (min-width: 1251px) and (max-width: 1500px) {
         .extraction-list {
-          width: 25%;
+          width: auto;
         }
       }
 
       @media all and (min-width: 1501px) and (max-width: 1750px) {
         .extraction-list {
-          width: 20%;
+          width: auto;
         }
       }
 
       @media all and (min-width: 1751px) {
         .extraction-list {
-          width: 16.6%;
+          width: auto;
         }
       }
     </style>
@@ -221,7 +221,8 @@ Custom property                            | Description                        
     </template>
 
     <template is="dom-if" if="[[!compressed]]">
-      <template is="dom-repeat" items="[[extractions]]">
+      <!-- add a function to sort the extrtaction items by their length -->
+      <template is="dom-repeat" items="[[_sortExtractions(extractions)]]">
         <template is="dom-if" if="[[_getLength(item, dataProperty)]]">
           <div class="layout vertical extraction-list">
             <template is="dom-if" if="[[_getProperty(item, nameProperty)]]">
@@ -242,6 +243,7 @@ Custom property                            | Description                        
             <div class="layout horizontal wrap extraction-item-list">
               <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
                 <div class="layout horizontal center extraction-item">
+                  <!-- <div>123</div> -->
                   <icon-label
                     class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
                     link="[[_getProperty(extraction, dataLinkProperty)]]"
@@ -280,429 +282,497 @@ Custom property                            | Description                        
   </template>
 
   <script>
-  (function() {
-    'use strict';
+  class ExtractionGrid extends Polymer.Element {
+  // returns the name of the component
+  static get is() {
+    return 'extraction-grid';
+  }
 
-    Polymer({
-      is: 'extraction-grid',
+  // defines the component's properties
+  static get properties() {
+    return {
+      /**
+       * (Optional)
+       *
+       * Whether to show the compressed extraction-grid.
+       *
+       * @type {Boolean}
+       * @default false
+       */
+      compressed: {
+        type: Boolean,
+        value: false
+      },
 
-      properties: {
-        /**
-         * (Optional)
-         *
-         * Whether to show the compressed extraction-grid.
-         *
-         * @type {Boolean}
-         * @default false
-         */
-        compressed: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * (Required)
-         *
-         * The list of extraction objects.
-         *
-         * @type {Array}
-         * @default []
-         */
-        extractions: {
-          type: Array,
-          value: function() {
-            return [];
-          }
-        },
-
-        /**
-         * (Optional)
-         *
-         * The data property in the extraction objects with a list of data objects.
-         *
-         * @type {String}
-         * @default 'data'
-         */
-        dataProperty: {
-          type: String,
-          value: 'data'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The classifications property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'classifications'
-         */
-        dataClassificationsProperty: {
-          type: String,
-          value: 'classifications'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The confidence property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'confidence'
-         */
-        dataConfidenceProperty: {
-          type: String,
-          value: 'confidence'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The highlight property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'highlight'
-         */
-        dataHighlightProperty: {
-          type: String,
-          value: 'highlight'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The icon property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'icon'
-         */
-        dataIconProperty: {
-          type: String,
-          value: 'icon'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The ID property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'id'
-         */
-        dataIdProperty: {
-          type: String,
-          value: 'id'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The link property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'link'
-         */
-        dataLinkProperty: {
-          type: String,
-          value: 'link'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The provenance property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'provenance'
-         */
-        dataProvenancesProperty: {
-          type: String,
-          value: 'provenances'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The style class property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'styleClass'
-         */
-        dataStyleClassProperty: {
-          type: String,
-          value: 'styleClass'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The text property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'text'
-         */
-        dataTextProperty: {
-          type: String,
-          value: 'text'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The type property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'type'
-         */
-        dataTypeProperty: {
-          type: String,
-          value: 'type'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The width property in the data objects from the extraction objects.
-         *
-         * @type {String}
-         * @default 'width'
-         */
-        dataWidthProperty: {
-          type: String,
-          value: 'width'
-        },
-
-        /**
-         * (Optional)
-         *
-         * Whether to hide the confidences.
-         *
-         * @type {Boolean}
-         * @default false
-         */
-        hideConfidences: {
-          type: Boolean,
-          value: false
-        },
-
-        /**
-         * (Optional)
-         *
-         * The icon property in the extraction objects.
-         *
-         * @type {String}
-         * @default 'icon'
-         */
-        iconProperty: {
-          type: String,
-          value: 'icon'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The name property in the extraction objects.
-         *
-         * @type {String}
-         * @default 'name'
-         */
-        nameProperty: {
-          type: String,
-          value: 'name'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The ID of the result corresponding to this extraction-grid.
-         *
-         * @type {String}
-         */
-        resultId: {
-          type: String
-        },
-
-        /**
-         * (Optional)
-         *
-         * The type of the result corresponding to this extraction-grid.
-         *
-         * @type {String}
-         */
-        resultType: {
-          type: String
-        },
-
-        /**
-         * (Output)
-         *
-         * The provenance data and result ID to show in the provenance dialog.  Contains {Number|String} confidence, {Array} data, and {Number|String} id.
-         *
-         * @type {Array}
-         */
-        showProvenances: {
-          notify: true,
-          type: Array
-        },
-
-        /**
-         * (Optional)
-         *
-         * The style class property in the extraction objects.
-         *
-         * @type {String}
-         * @default 'styleClass'
-         */
-        styleClassProperty: {
-          type: String,
-          value: 'styleClass'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The tag manager object.
-         *
-         * @type {Object}
-         */
-        tagManager: {
-          type: Object
-        },
-
-        /**
-         * (Optional)
-         *
-         * The extraction link target.
-         *
-         * @type {String}
-         * @default '_self'
-         */
-        target: {
-          type: String,
-          value: '_self'
-        },
-
-        /**
-         * (Optional)
-         *
-         * The width property in the extraction objects.
-         *
-         * @type {String}
-         * @default 'width'
-         */
-        widthProperty: {
-          type: String,
-          value: 'width'
+      /**
+       * (Required)
+       *
+       * The list of extraction objects.
+       *
+       * @type {Array}
+       * @default []
+       */
+      extractions: {
+        type: Array,
+        value() {
+          return [];
         }
       },
 
       /**
-       * Returns the style class of the highlightable extraction label using the given item and highlight property.
+       * (Optional)
        *
-       * @param {Object} item
-       * @param {String} property
-       * @return {String}
-       * @private
+       * The data property in the extraction objects with a list of data objects.
+       *
+       * @type {String}
+       * @default 'data'
        */
-      _getHighlightableLabelStyleClass: function(item, property) {
-        return item[property] ? 'highlight' : '';
+      dataProperty: {
+        type: String,
+        value: 'data'
       },
 
       /**
-       * Returns the length of the list in the given item at the given property.
+       * (Optional)
        *
-       * @param {Object} item
-       * @param {String} property
-       * @return {Number}
-       * @private
+       * The classifications property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'classifications'
        */
-      _getLength: function(item, property) {
-        return item && item[property] ? item[property].length : undefined;
+      dataClassificationsProperty: {
+        type: String,
+        value: 'classifications'
       },
 
       /**
-       * Returns the list in the given item at the given property (or [] if undefined).
+       * (Optional)
        *
-       * @param {Object} item
-       * @param {String} property
-       * @return {Array}
-       * @private
+       * The confidence property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'confidence'
        */
-      _getList: function(item, property) {
-        return (item ? item[property] : []) || [];
+      dataConfidenceProperty: {
+        type: String,
+        value: 'confidence'
       },
 
       /**
-       * Returns the object in the given item at the given property.
+       * (Optional)
        *
-       * @param {Object} item
-       * @param {String} property
-       * @return {Object}
-       * @private
+       * The highlight property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'highlight'
        */
-      _getProperty: function(item, property) {
-        return item ? item[property] : undefined;
+      dataHighlightProperty: {
+        type: String,
+        value: 'highlight'
       },
 
       /**
-       * Returns the title (tooltip) for the text for the given item.
+       * (Optional)
        *
-       * @param {Object} item
-       * @param {String} linkProperty
-       * @param {String} textProperty
-       * @return {Object}
-       * @private
+       * The icon property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'icon'
        */
-      _getTextTitleTooltip: function(item, linkProperty, textProperty) {
-        return item && item[textProperty] ? (item[linkProperty] ? ('Click to Open ' + item[textProperty]) : item[textProperty]) : undefined;
+      dataIconProperty: {
+        type: String,
+        value: 'icon'
       },
 
       /**
-       * Stops propagation of the given event if the user accessed a link.
+       * (Optional)
        *
-       * @event tap
-       * @private
+       * The ID property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'id'
        */
-      _handleTapEvent: function(event) {
-        if(event.model.extraction && event.model.extraction[this.dataLinkProperty]) {
-          event.stopPropagation();
-        }
+      dataIdProperty: {
+        type: String,
+        value: 'id'
       },
 
       /**
-       * Updates `showProvenances` with an extraction in the given event if the extraction was selected.
+       * (Optional)
        *
-       * @param {Event} event
-       * @private
+       * The link property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'link'
        */
-      _updateShowProvenances: function(event) {
-        if(event.detail.value) {
-          event.stopPropagation();
-          if(event.model.extraction) {
-            this.set('showProvenances', [{
-              confidence: event.model.extraction[this.dataConfidenceProperty],
-              documentId: this.resultId,
-              extraction: event.model.extraction[this.dataTextProperty],
-              provenances: event.model.extraction[this.dataProvenancesProperty]
-            }]);
-            return;
-          }
-        }
+      dataLinkProperty: {
+        type: String,
+        value: 'link'
+      },
 
-        if(event.model.item) {
-          event.stopPropagation();
-          var self = this;
-          var data = this._getList(event.model.item, this.dataProperty).map(function(extraction) {
-            return {
-              confidence: extraction[self.dataConfidenceProperty],
-              documentId: self.resultId,
-              extraction: extraction[self.dataTextProperty],
-              provenances: extraction[self.dataProvenancesProperty]
-            };
-          });
-          this.set('showProvenances', data);
-        }
+      /**
+       * (Optional)
+       *
+       * The provenance property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'provenance'
+       */
+      dataProvenancesProperty: {
+        type: String,
+        value: 'provenances'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The style class property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'styleClass'
+       */
+      dataStyleClassProperty: {
+        type: String,
+        value: 'styleClass'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The text property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'text'
+       */
+      dataTextProperty: {
+        type: String,
+        value: 'text'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The type property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'type'
+       */
+      dataTypeProperty: {
+        type: String,
+        value: 'type'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The width property in the data objects from the extraction objects.
+       *
+       * @type {String}
+       * @default 'width'
+       */
+      dataWidthProperty: {
+        type: String,
+        value: 'width'
+      },
+
+      /**
+       * (Optional)
+       *
+       * Whether to hide the confidences.
+       *
+       * @type {Boolean}
+       * @default false
+       */
+      hideConfidences: {
+        type: Boolean,
+        value: false
+      },
+
+      /**
+       * (Optional)
+       *
+       * The icon property in the extraction objects.
+       *
+       * @type {String}
+       * @default 'icon'
+       */
+      iconProperty: {
+        type: String,
+        value: 'icon'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The name property in the extraction objects.
+       *
+       * @type {String}
+       * @default 'name'
+       */
+      nameProperty: {
+        type: String,
+        value: 'name'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The ID of the result corresponding to this extraction-grid.
+       *
+       * @type {String}
+       */
+      resultId: {
+        type: String
+      },
+
+      /**
+       * (Optional)
+       *
+       * The type of the result corresponding to this extraction-grid.
+       *
+       * @type {String}
+       */
+      resultType: {
+        type: String
+      },
+
+      /**
+       * (Output)
+       *
+       * The provenance data and result ID to show in the provenance dialog.  Contains {Number|String} confidence, {Array} data, and {Number|String} id.
+       *
+       * @type {Array}
+       */
+      showProvenances: {
+        notify: true,
+        type: Array
+      },
+
+      /**
+       * (Optional)
+       *
+       * The style class property in the extraction objects.
+       *
+       * @type {String}
+       * @default 'styleClass'
+       */
+      styleClassProperty: {
+        type: String,
+        value: 'styleClass'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The tag manager object.
+       *
+       * @type {Object}
+       */
+      tagManager: {
+        type: Object
+      },
+
+      /**
+       * (Optional)
+       *
+       * The extraction link target.
+       *
+       * @type {String}
+       * @default '_self'
+       */
+      target: {
+        type: String,
+        value: '_self'
+      },
+
+      /**
+       * (Optional)
+       *
+       * The width property in the extraction objects.
+       *
+       * @type {String}
+       * @default 'width'
+       */
+      widthProperty: {
+        type: String,
+        value: 'width'
       }
+    };
+  }
+
+  /**
+   * Returns the style class of the highlightable extraction label using the given item and highlight property.
+   *
+   * @param {Object} item
+   * @param {String} property
+   * @return {String}
+   * @private
+   */
+  _getHighlightableLabelStyleClass(item, property) {
+    return item[property] ? 'highlight' : '';
+  }
+
+  /**
+   * Returns the length of the list in the given item at the given property.
+   *
+   * @param {Object} item
+   * @param {String} property
+   * @return {Number}
+   * @private
+   */
+  _getLength(item, property) {
+    console.log(item);
+    return item && item[property] ? item[property].length : undefined;
+  }
+
+  /**
+   * Returns the Extractions list which sorted by their text length.
+   *
+   * @param {Array} list
+   * @return {Array} sorted list
+   * @private
+   */
+  _sortExtractions(list) {
+    // var temp_map = [];
+    var temp_map = list.map(function(extraction) {
+      console.log('extraction', extraction);
+      var name_length = 0;
+      var text_length = 0;
+
+      if (extraction['name'].length > 0) {
+        name_length += extraction['name'].length;
+        console.log('name_length', name_length);
+      }
+
+      extraction['data'].map(item => {
+        text_length += item['text'].length;
+      });
+      console.log('text_length', text_length);
+
+      return {
+        length: name_length > text_length ? name_length : text_length,
+        item_data: extraction
+      };
     });
-  })();
-  </script>
+    console.log('temp_map', temp_map);
+
+    function compare(property) {
+      return function(obj1, obj2) {
+        var value1 = obj1[property];
+        var value2 = obj2[property];
+        return value1 - value2;
+      };
+    }
+
+    var sorted_map = temp_map.sort(compare('length'));
+    var sorted_extractions = [];
+
+    sorted_map.map(object => {
+      sorted_extractions.push(object['item_data']);
+    });
+    return sorted_extractions;
+  }
+
+  /**
+   * Returns the list in the given item at the given property (or [] if undefined).
+   *
+   * @param {Object} item
+   * @param {String} property
+   * @return {Array}
+   * @private
+   */
+  _getList(item, property) {
+    console.log('item list property', property);
+    console.log('item list', item[property]);
+    return (item ? item[property] : []) || [];
+  }
+
+  /**
+   * Returns the object in the given item at the given property.
+   *
+   * @param {Object} item
+   * @param {String} property
+   * @return {Object}
+   * @private
+   */
+  _getProperty(item, property) {
+    if (property == 'icon' && item[property] == undefined) {
+      return 'star';
+    }
+    return item ? item[property] : undefined;
+  }
+
+  /**
+   * Returns the title (tooltip) for the text for the given item.
+   *
+   * @param {Object} item
+   * @param {String} linkProperty
+   * @param {String} textProperty
+   * @return {Object}
+   * @private
+   */
+  _getTextTitleTooltip(item, linkProperty, textProperty) {
+    return item && item[textProperty]
+      ? item[linkProperty]
+        ? 'Click to Open ' + item[textProperty]
+        : item[textProperty]
+      : undefined;
+  }
+
+  /**
+   * Stops propagation of the given event if the user accessed a link.
+   *
+   * @event tap
+   * @private
+   */
+  _handleTapEvent(event) {
+    if (
+      event.model.extraction &&
+      event.model.extraction[this.dataLinkProperty]
+    ) {
+      event.stopPropagation();
+    }
+  }
+
+  /**
+   * Updates `showProvenances` with an extraction in the given event if the extraction was selected.
+   *
+   * @param {Event} event
+   * @private
+   */
+  _updateShowProvenances(event) {
+    if (event.detail.value) {
+      event.stopPropagation();
+      if (event.model.extraction) {
+        this.set('showProvenances', [
+          {
+            confidence: event.model.extraction[this.dataConfidenceProperty],
+            documentId: this.resultId,
+            extraction: event.model.extraction[this.dataTextProperty],
+            provenances: event.model.extraction[this.dataProvenancesProperty]
+          }
+        ]);
+        return;
+      }
+    }
+
+    if (event.model.item) {
+      event.stopPropagation();
+      var self = this;
+      var data = this._getList(event.model.item, this.dataProperty).map(
+        function(extraction) {
+          return {
+            confidence: extraction[self.dataConfidenceProperty],
+            documentId: self.resultId,
+            extraction: extraction[self.dataTextProperty],
+            provenances: extraction[self.dataProvenancesProperty]
+          };
+        }
+      );
+      this.set('showProvenances', data);
+    }
+  }
+}
+customElements.define(ExtractionGrid.is, ExtractionGrid);
+</script>
 </dom-module>
