@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "keywords": ["web-component", "polymer"],
   "main": "extraction-grid.html",
-  "homepage": "https://github.com/DigElements/extraction-grid/",
+  "homepage": "https://github.com/usc-isi-digelements/extraction-grid/",
   "ignore": ["/.*", "/test/"],
   "dependencies": {
     "polymer": "Polymer/polymer#^2.5.0",
