@@ -15,7 +15,8 @@
     "icon-label": "usc-isi-digelements/icon-label#^2.2.1",
     "iron-flex-layout": "PolymerElements/iron-flex-layout#^2.0.0",
     "paper-styles": "PolymerElements/paper-styles#^2.0.0",
-    "tag-extraction-buttons": "usc-isi-digelements/tag-extraction-buttons^2.1.1"
+    "tag-extraction-buttons":
+      "usc-isi-digelements/tag-extraction-buttons#^2.1.1"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^2.0.0",
