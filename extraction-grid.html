@@ -99,7 +99,7 @@ Custom property                            | Description                        
       }
 
       .extraction-item-list {
-        margin-left: 2px;
+        margin-left: 0;
       }
 
       .extraction-item {
@@ -243,7 +243,6 @@ Custom property                            | Description                        
             <div class="layout horizontal wrap extraction-item-list">
               <template is="dom-repeat" items="[[_getList(item, dataProperty)]]" as="extraction">
                 <div class="layout horizontal center extraction-item">
-                  <!-- <div>123</div> -->
                   <icon-label
                     class$="[[_getHighlightableLabelStyleClass(extraction, dataHighlightProperty)]]"
                     link="[[_getProperty(extraction, dataLinkProperty)]]"
@@ -682,6 +681,7 @@ Custom property                            | Description                        
    * @private
    */
   _getList(item, property) {
+    console.log(item);
     console.log('item list property', property);
     console.log('item list', item[property]);
     return (item ? item[property] : []) || [];
