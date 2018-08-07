@@ -620,7 +620,6 @@ Custom property                            | Description                        
    * @private
    */
   _getLength(item, property) {
-    console.log(item);
     return item && item[property] ? item[property].length : undefined;
   }
 
@@ -634,26 +633,22 @@ Custom property                            | Description                        
   _sortExtractions(list) {
     // var temp_map = [];
     var temp_map = list.map(function(extraction) {
-      console.log('extraction', extraction);
       var name_length = 0;
       var text_length = 0;
 
       if (extraction['name'].length > 0) {
         name_length += extraction['name'].length;
-        console.log('name_length', name_length);
       }
 
       extraction['data'].map(item => {
         text_length += item['text'].length;
       });
-      console.log('text_length', text_length);
 
       return {
         length: name_length > text_length ? name_length : text_length,
         item_data: extraction
       };
     });
-    console.log('temp_map', temp_map);
 
     function compare(property) {
       return function(obj1, obj2) {
@@ -681,9 +676,9 @@ Custom property                            | Description                        
    * @private
    */
   _getList(item, property) {
-    console.log(item);
-    console.log('item list property', property);
-    console.log('item list', item[property]);
+    // console.log(item);
+    // console.log('item list property', property);
+    // console.log('item list', item[property]);
     return (item ? item[property] : []) || [];
   }
 
