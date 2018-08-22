@@ -72,7 +72,7 @@ Custom property                            | Description                        
         color: var(--paper-grey-900);
         font-size: 14px;
         line-height: 20px;
-        min-height: 20px;
+        /* min-height: 20px; */
 
         /* Needed to fix flexbox layout issues in newer browsers. */
         overflow: hidden;
@@ -193,13 +193,13 @@ Custom property                            | Description                        
                 text="[[_getProperty(extraction, dataTextProperty)]]"
                 text-title-tooltip="[[_getTextTitleTooltip(extraction, dataLinkProperty, dataTextProperty)]]"
                 width="[[_getProperty(extraction, dataWidthProperty)]]"
-                on-tapped-changed="_updateShowProvenances"
+                on-tapped-changed="updateShowProvenances"
                 on-tap="_handleTapEvent">
 
                 <template is="dom-if" if="[[!hideConfidences]]">
                   <confidence-marker
                     confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                    on-selected-changed="_updateShowProvenances">
+                    on-selected-changed="updateShowProvenances">
                   </confidence-marker>
                 </template>
               </icon-label>
@@ -236,7 +236,7 @@ Custom property                            | Description                        
                   width="[[_getProperty(item, widthProperty)]]">
                 </icon-label>
 
-                <icon-button icon="icons:help" title-tooltip="Click to Open Extraction Evidence" on-tap="_updateShowProvenances"></icon-button>
+                <icon-button icon="icons:help" title-tooltip="Click to Open Extraction Evidence" on-tap="updateShowProvenances"></icon-button>
               </div>
             </template>
 
@@ -256,7 +256,7 @@ Custom property                            | Description                        
                     <template is="dom-if" if="[[!hideConfidences]]">
                       <confidence-marker
                         confidence="[[_getProperty(extraction, dataConfidenceProperty)]]"
-                        on-selected-changed="_updateShowProvenances">
+                        on-selected-changed="updateShowProvenances">
                       </confidence-marker>
                     </template>
                   </icon-label>
@@ -541,10 +541,15 @@ Custom property                            | Description                        
        * The provenance data and result ID to show in the provenance dialog.  Contains {Number|String} confidence, {Array} data, and {Number|String} id.
        *
        * @type {Array}
+       * @default []
        */
       showProvenances: {
         notify: true,
-        type: Array
+        type: Array,
+        value: function() {
+          return [];
+        }
+        // observer: '_printValue(showingProvenances.splices)'
       },
 
       /**
@@ -676,9 +681,6 @@ Custom property                            | Description                        
    * @private
    */
   _getList(item, property) {
-    // console.log(item);
-    // console.log('item list property', property);
-    // console.log('item list', item[property]);
     return (item ? item[property] : []) || [];
   }
 
@@ -721,6 +723,7 @@ Custom property                            | Description                        
    * @private
    */
   _handleTapEvent(event) {
+    // console.log('eg, _handleTapEvent');
     if (
       event.model.extraction &&
       event.model.extraction[this.dataLinkProperty]
@@ -733,38 +736,40 @@ Custom property                            | Description                        
    * Updates `showProvenances` with an extraction in the given event if the extraction was selected.
    *
    * @param {Event} event
-   * @private
+   *
    */
-  _updateShowProvenances(event) {
-    if (event.detail.value) {
-      event.stopPropagation();
-      if (event.model.extraction) {
-        this.set('showProvenances', [
-          {
-            confidence: event.model.extraction[this.dataConfidenceProperty],
-            documentId: this.resultId,
-            extraction: event.model.extraction[this.dataTextProperty],
-            provenances: event.model.extraction[this.dataProvenancesProperty]
-          }
-        ]);
-        return;
-      }
-    }
+  updateShowProvenances(event) {
+    // console.log('_updateShowProvenances', event);
+    // if (event.detail.value) {
+    //   event.stopPropagation();
+    //   if (event.model.extraction) {
+    //     this.set('showProvenances', [
+    //       {
+    //         confidence: event.model.extraction[this.dataConfidenceProperty],
+    //         documentId: this.resultId,
+    //         extraction: event.model.extraction[this.dataTextProperty],
+    //         provenances: event.model.extraction[this.dataProvenancesProperty]
+    //       }
+    //     ]);
+    //     return;
+    //   }
+    // }
 
     if (event.model.item) {
       event.stopPropagation();
       var self = this;
-      var data = this._getList(event.model.item, this.dataProperty).map(
-        function(extraction) {
-          return {
-            confidence: extraction[self.dataConfidenceProperty],
-            documentId: self.resultId,
-            extraction: extraction[self.dataTextProperty],
-            provenances: extraction[self.dataProvenancesProperty]
-          };
-        }
-      );
+      var data = this._getList(event.model.item, 'data').map(function(
+        extraction
+      ) {
+        return {
+          confidence: extraction['confidence'],
+          documentId: event.model.resultId,
+          extraction: extraction['text'],
+          provenances: extraction['provenances']
+        };
+      });
       this.set('showProvenances', data);
+      // console.log('_showProvenances', data);
     }
   }
 }
